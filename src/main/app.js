@@ -9,11 +9,11 @@ $(document).ready(function () {
 
 // Delegate click event to dynamically loaded About Us button
 
-// $(document).on("click", "#homeBtn", function () {
-//   $("#home").show();
-//   $("#aboutUs").hide();
-//   $("#contact").hide();
-// });
+$(document).on("click", "#homeBtn", function () {
+  $("#home").show();
+  $("#aboutUs").hide();
+  $("#contact").hide();
+});
 
 
 // $(document).on("click", "#aboutUsBtn", function () {
