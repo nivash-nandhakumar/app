@@ -3,6 +3,7 @@ $(document).ready(function () {
   $("#header").load("header.html");
   $("#footer").load("footer.html");
   $("#home").load("../home/home.html");
+  $("#claim").load("../claim/claim.html");
 });
 
 

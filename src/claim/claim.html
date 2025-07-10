@@ -1,0 +1,94 @@
+
+
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Accident Claim Management</h2>
+    <div class="row">
+      <!-- Claim Submission Form -->
+      <div class="col-md-6">
+        <form id="claimForm">
+          <div class="mb-3">
+            <label for="policyId" class="form-label">Policy ID</label>
+            <input type="text" class="form-control" id="policyId" required>
+          </div>
+          <div class="mb-3">
+            <label for="claimAmount" class="form-label">Claim Amount</label>
+            <input type="number" class="form-control" id="claimAmount" required>
+          </div>
+          <div class="mb-3">
+            <label for="claimReason" class="form-label">Reason</label>
+            <textarea class="form-control" id="claimReason" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Claim</button>
+        </form>
+      </div>
+
+      <!-- Claim Status Table -->
+      <div class="col-md-6">
+        <table class="table table-bordered mt-4" id="claimTable">
+          <thead class="table-dark">
+            <tr>
+              <th>Claim ID</th>
+              <th>Policy ID</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rows populated via jQuery -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery Script -->
+  <script>
+    $(document).ready(function () {
+      // Submit claim
+      $('#claimForm').on('submit', function (e) {
+        e.preventDefault();
+        const claimData = {
+          policyId: $('#policyId').val(),
+          claimAmount: $('#claimAmount').val(),
+          claimReason: $('#claimReason').val()
+        };
+
+        $.ajax({
+          url: '/api/claims/submit',
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(claimData),
+          success: function (response) {
+            alert('Claim submitted successfully!');
+            loadClaims();
+          },
+          error: function () {
+            alert('Error submitting claim.');
+          }
+        });
+      });
+
+      // Load claims
+      function loadClaims() {
+        $.ajax({
+          url: '/api/claims',
+          method: 'GET',
+          success: function (claims) {
+            const rows = claims.map(claim => `
+              <tr>
+                <td>${claim.claimId}</td>
+                <td>${claim.policyId}</td>
+                <td>${claim.claimAmount}</td>
+                <td>${claim.claimDate}</td>
+                <td>${claim.claimStatus}</td>
+              </tr>
+            `).join('');
+            $('#claimTable tbody').html(rows);
+          }
+        });
+      }
+
+      loadClaims(); // Initial load
+    });
+  </script>
