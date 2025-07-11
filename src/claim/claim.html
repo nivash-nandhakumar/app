@@ -70,25 +70,25 @@
       });
 
       // Load claims
-      function loadClaims() {
-        $.ajax({
-          url: '/api/claims',
-          method: 'GET',
-          success: function (claims) {
-            const rows = claims.map(claim => `
-              <tr>
-                <td>${claim.claimId}</td>
-                <td>${claim.policyId}</td>
-                <td>${claim.claimAmount}</td>
-                <td>${claim.claimDate}</td>
-                <td>${claim.claimStatus}</td>
-              </tr>
-            `).join('');
-            $('#claimTable tbody').html(rows);
-          }
-        });
-      }
+      // function loadClaims() {
+      //   $.ajax({
+      //     url: '/api/claims',
+      //     method: 'GET',
+      //     success: function (claims) {
+      //       const rows = claims.map(claim => `
+      //         <tr>
+      //           <td>${claim.claimId}</td>
+      //           <td>${claim.policyId}</td>
+      //           <td>${claim.claimAmount}</td>
+      //           <td>${claim.claimDate}</td>
+      //           <td>${claim.claimStatus}</td>
+      //         </tr>
+      //       `).join('');
+      //       $('#claimTable tbody').html(rows);
+      //     }
+      //   });
+      // }
 
-      loadClaims(); // Initial load
+      // loadClaims(); // Initial load
     });
   </script>

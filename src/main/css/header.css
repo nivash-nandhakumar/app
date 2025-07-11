@@ -1,0 +1,11 @@
+.headerContainer{
+    background-color: #023864;
+}
+
+.header-menu-items{
+    cursor: pointer !important;
+    margin-bottom: 0 !important;
+}
+.header-menu-items:hover{
+    text-decoration: underline;
+}

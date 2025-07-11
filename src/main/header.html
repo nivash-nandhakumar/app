@@ -1,8 +1,81 @@
-<header class="d-flex justify-content-between p-3 text-white bg-secondary">
-    <h2>Vexura</h2>
-    <nav class="d-flex p-3 text-white justify-content-between w-25 align-items-center">
-        <button id="homeBtn" class="btn btn-secondary">Home</button> |
-        <button id="aboutUsBtn" class="btn btn-secondary">About</button>|
-        <button id="contactBtn" class="btn btn-secondary">contact us</button>
-    </nav>
+<link href="./css/header.css" rel="stylesheet" />
+<script src="./js/login.js"></script>
+
+<header
+  class="d-flex justify-content-between p-2 text-white headerContainer align-content-center"
+>
+  <h2>Vexura</h2>
+  <nav
+    class="d-flex p-2 text-white justify-content-between w-50 align-items-center"
+  >
+    <p class="header-menu-items" id="homeBtn">Home</p>
+    <p class="header-menu-items" id="policyBtn">Policy</p>
+    <p class="header-menu-items" id="claimBtn">claim</p>
+    <p class="header-menu-items" id="renewalBtn">Renewal</p>
+    <p class="header-menu-items" id="calculatorBtn">Premium Calculator</p>
+    <!-- <p class="header-menu-items" id="loginBtn">Login</p> -->
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#loginModal"
+    >
+      Login
+    </button>
+  </nav>
 </header>
+
+<!-- Trigger Button -->
+
+<!-- Login Modal -->
+<div
+  class="modal fade"
+  id="loginModal"
+  tabindex="-1"
+  aria-labelledby="loginModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Login</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="loginForm" novalidate>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" required />
+            <div class="invalid-feedback">Please enter your username.</div>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              required
+            />
+            <div class="invalid-feedback">Please enter your password.</div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

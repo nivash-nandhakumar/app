@@ -1,0 +1,51 @@
+<script src="../renewal/renewal.js"></script>
+
+
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Policy Renewals</h2>
+
+  <div class="mb-3">
+    <button class="btn btn-primary" id="initiateRenewal">
+      Initiate Renewal
+    </button>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>Renewal ID</th>
+        <th>Policy ID</th>
+        <th>Renewal Date</th>
+        <th>New Premium</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="renewalTable">
+      <!-- Sample data -->
+      <tr>
+        <td>101</td>
+        <td>5001</td>
+        <td>2025-07-15</td>
+        <td>₹12,500</td>
+        <td><span class="badge bg-warning text-dark">Pending</span></td>
+        <td>
+          <button class="btn btn-success btn-sm updateStatus">
+            Mark Completed
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>102</td>
+        <td>5002</td>
+        <td>2025-07-20</td>
+        <td>₹10,800</td>
+        <td><span class="badge bg-success">Completed</span></td>
+        <td>
+          <button class="btn btn-secondary btn-sm" disabled>Completed</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>    
+
