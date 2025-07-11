@@ -1,27 +1,106 @@
+<script src="../policy/policy.js"></script>
+ <link rel="stylesheet" href="../policy/policy.css"/>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enhanced Policies Dashboard</title>
 
-   
-  <link href="../policy/policy.css" rel="stylesheet" />
-  <script src="../policy/policy.js"></script>
+  
+</head>
+<body>
 
-    <h1>Policies</h1>
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Policies Dashboard</h2>
 
-    <div class="policy-option">
-      <h2>View Current Policies</h2>
-      <p>Access and review your active vehicle insurance policies, including coverage details and expiration dates.</p>
-    </div>
+  <div class="text-center mb-4">
+    <a href="#view-policies" class="btn btn-outline-primary m-2">View Current Policies</a>
+    <a href="#update-policy-info" class="btn btn-outline-secondary m-2">Update Policy Information</a>
+    <a href="#add-new-policy" class="btn btn-outline-success m-2">Add New Policy</a>
+    <!-- <a href="#policy-faqs" class="btn btn-outline-info m-2">Policy FAQs</a> -->
+  </div>
 
-    <div class="policy-option">
-      <h2>Update Policy Information</h2>
-      <p>Modify your personal or vehicle details, change coverage options, or update contact information.</p>
-    </div>
+  <!-- View Section -->
+  <div class="container mt-5">
+  <h3 class="text-primary mb-4">View Current Policies</h3>
 
-    <div class="policy-option">
-      <h2>Add New Policy</h2>
-      <p>Start a new insurance policy for a vehicle by submitting required documents and selecting coverage plans.</p>
-    </div>
-
-    <div class="policy-option">
-      <h2>Policy FAQs</h2>
-      <p>Find answers to frequently asked questions about vehicle insurance policies, coverage, and claims.</p>
-    </div>
-
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">Policy Number</th>
+          <th scope="col">Vehicle</th>
+          <th scope="col">Coverage Type</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">Expiration Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#123456</td>
+          <td>Honda Civic 2020</td>
+          <td>Comprehensive</td>
+          <td>2024-01-01</td>
+          <td>2025-12-31</td>
+        </tr>
+        <tr>
+          <td>#789012</td>
+          <td>Toyota Corolla 2019</td>
+          <td>Basic</td>
+          <td>2023-08-15</td>
+          <td>2024-08-15</td>
+        </tr>
+        <tr>
+          <td>#345678</td>
+          <td>Ford EcoSport 2021</td>
+          <td>Premium</td>
+          <td>2024-06-10</td>
+          <td>2026-06-10</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- Update Section -->
+  <div id="update-policy-info" class="policy-section">
+    <h4>Update Policy Information</h4>
+    <form id="update-policy-form">
+      <div class="mb-3">
+        <label for="policy-number" class="form-label">Policy Number</label>
+        <input type="text" class="form-control" id="policy-number" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" class="form-control" id="email" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+<!-- Add Section -->
+  <div id="add-new-policy" class="policy-section">
+    <h4>Add New Policy</h4>
+    <form id="add-policy-form">
+      <div class="mb-3">
+        <label for="owner-name" class="form-label">Owner Name</label>
+        <input type="text" class="form-control" id="owner-name" required>
+      </div>
+      <div class="mb-3">
+        <label for="vehicle-info" class="form-label">Vehicle Information</label>
+        <input type="text" class="form-control" id="vehicle-info" required>
+      </div>
+      <div class="mb-3">
+        <label for="coverage-type" class="form-label">Coverage Type</label>
+        <select class="form-select" id="coverage-type" required>
+          <option value="">Select coverage</option>
+          <option value="basic">Basic</option>
+          <option value="comprehensive">Comprehensive</option>
+          <option value="premium">Premium</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-success">Add Policy</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
