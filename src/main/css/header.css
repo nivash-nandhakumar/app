@@ -1,11 +1,27 @@
-.headerContainer{
-    background-color: #023864;
+.headerContainer {
+  background-color: #023864;
 }
 
-.header-menu-items{
-    cursor: pointer !important;
-    margin-bottom: 0 !important;
+.header-menu-items {
+  cursor: pointer !important;
+  margin-bottom: 0 !important;
 }
-.header-menu-items:hover{
-    text-decoration: underline;
+.header-menu-items:hover {
+  text-decoration: underline;
+}
+
+.modal-body{
+    padding: 0;
+    z-index: 1;
+} 
+
+.modalCloseBtn{
+    z-index: 2;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 1200px !important;
+    width: 900px !important;
+  }
 }

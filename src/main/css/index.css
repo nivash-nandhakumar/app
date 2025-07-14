@@ -1,3 +1,9 @@
 body{
     background-color: white !important;
+    min-height: 90vh !important;
+}
+
+.footerDiv{
+    bottom: -50px;
+    min-height: 6vh;
 }
