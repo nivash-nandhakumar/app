@@ -6,7 +6,6 @@
     min-height: 6vh;
     width: 100%;
 }
-.site a {
-    text-decoration: none;
-    margin: 2em;
+.site p {
+    width: max-content;
 }

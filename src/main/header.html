@@ -1,5 +1,6 @@
 <link href="./css/header.css" rel="stylesheet" />
 <script src="./js/login.js"></script>
+<script src="./js/header.js"></script>
 
 <header
   class="d-flex justify-content-between p-2 text-white headerContainer align-content-center"
@@ -8,11 +9,12 @@
   <nav
     class="d-flex p-2 text-white justify-content-between w-50 align-items-center"
   >
-    <p class="header-menu-items" id="homeBtn">Home</p>
-    <p class="header-menu-items" id="policyBtn">Policy</p>
-    <p class="header-menu-items" id="claimBtn">claim</p>
-    <p class="header-menu-items" id="renewalBtn">Renewal</p>
-    <p class="header-menu-items" id="calculatorBtn">Premium Calculator</p>
+    <p class="nav-link" data-tab="home">Home</p>
+    <p class="nav-link" data-tab="policy">Policy</p>
+    <p class="nav-link" data-tab="claim">claim</p>
+    <p class="nav-link" data-tab="renewal">Renewal</p>
+    <p class="nav-link" data-tab="calculator">Premium Calculator</p>
+
     <!-- <p class="header-menu-items" id="loginBtn">Login</p> -->
     <button
       type="button"
@@ -24,8 +26,6 @@
     </button>
   </nav>
 </header>
-
-<!-- Trigger Button -->
 
 <!-- Login Modal -->
 <div
@@ -49,7 +49,9 @@
 
       <div class="modal-body z-1">
         <div class="login-container d-flex">
-          <div class="login-form w-50 d-flex justify-content-center align-content-center">
+          <div
+            class="login-form w-50 d-flex justify-content-center align-content-center"
+          >
             <div>
               <h2>WELCOME BACK</h2>
               <p>Please enter your details.</p>
@@ -57,7 +59,7 @@
                 <div class="form-group">
                   <label>Email</label>
                   <input
-                    type="email"    
+                    type="email"
                     class="form-control"
                     placeholder="Enter your email"
                     required
