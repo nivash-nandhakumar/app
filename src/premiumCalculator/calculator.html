@@ -1,1 +1,135 @@
-<h1>Premium calculator</h1>
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .header {
+      background-color: #003366;
+      color: white;
+      padding: 5px;
+      text-align: center;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+    
+    .form-section {
+      background-color: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    #result {
+      background-color: #e9f7ef;
+      padding: 5px;
+      border-radius: 15px;
+      margin-top: 20px;
+      border: 1px solid #28a745;
+    }
+  </style>
+
+
+
+  <!-- Form Section -->
+  <div class="container mt-5">
+    <div class="form-section">
+      <form id="premiumForm">
+        <h4>Vehicle Information</h4>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+           <label for="vehicleAge" class="form-label">Vehicle Age</label>
+            <input type="number" class="form-control rounded-pill" id="vehicleAge" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="vehicleType" class="form-label">Vehicle Type</label>
+            <select class="form-select rounded-pill" id="vehicleType" required>
+              <option value="">Select</option>
+              <option>Car</option>
+              <option>Bike</option>
+             >
+            </select>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="model" class="form-label">Model</label>
+            <input type="text" class="form-control rounded-pill" id="model" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="year" class="form-label">Year of Manufacture</label>
+            <input type="number" class="form-control rounded-pill" id="year" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="fuelType" class="form-label">Fuel Type</label>
+            <select class="form-select rounded-pill" id="fuelType" required>
+              <option value="">Select</option>
+              <option>Petrol</option>
+              <option>Diesel</option>
+              <option>Electric</option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="cubicCapacity" class="form-label">Cubic Capacity (cc)</label>
+            <input type="number" class="form-control rounded-pill" id="cubicCapacity" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="coverageType" class="form-label">Coverage Type</label>
+            <select class="form-select rounded-pill" id="coverageType" required>
+              <option value="">Select</option>
+              <option>Third Party</option>
+              <option>Comprehensive</option>
+            </select>
+          </div>
+        </div>
+
+        <h4 class="mt-4">Personal Information</h4>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="ownerName" class="form-label">Owner Name</label>
+            <input type="text" class="form-control rounded-pill" id="ownerName" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="ownerAge" class="form-label">Owner Age</label>
+            <input type="number" class="form-control rounded-pill" id="ownerAge" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="drivingExperience" class="form-label">Driving Experience (Years)</label>
+            <input type="number" class="form-control rounded-pill" id="drivingExperience" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="claimsHistory" class="form-label">Claims History</label>
+            <select class="form-select rounded-pill" id="claimsHistory" required>
+              <option value="">Select</option>
+              <option>No Claims</option>
+              <option>1-2 Claims</option>
+              <option>3+ Claims</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3 rounded-pill">Calculate Premium</button>
+      </form>
+
+      <!-- Result -->
+      <div id="result" style="display:none;">
+        <h5>Estimated Premium Amount for <span id="ownerDisplay"></span>:</h5>
+        <h4>₹<span id="premiumAmount"></span></h4>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery Script -->
+  <script>
+    $('#premiumForm').on('submit', function(e) {
+      e.preventDefault();
+
+      const vehicleAge = parseInt($('#vehicleAge').val());
+      const cubicCapacity = parseInt($('#cubicCapacity').val());
+      const ownerAge = parseInt($('#ownerAge').val());
+      const drivingExperience = parseInt($('#drivingExperience').val());
+      const ownerName = $('#ownerName').val();
+
+      // Basic premium calculation logic
+      let premium = 5000 + (vehicleAge * 100) + (cubicCapacity * 0.5) - (drivingExperience * 50) + (ownerAge * 20);
+      $('#premiumAmount').text(premium.toFixed(2));
+      $('#ownerDisplay').text(ownerName);
+      $('#result').show();
+    });
+  </script>
