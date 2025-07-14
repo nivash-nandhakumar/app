@@ -7,6 +7,8 @@ $(document).ready(function () {
   $("#claim").load("../claim/claim.html").hide();
   $("#renewal").load("../renewal/renewal.html").hide();
   $("#calculator").load("../premiumCalculator/calculator.html").hide();
+  $("#about").load("../about/about.html").hide();
+  $("#contact_us").load("../about/contact_us.html").hide();
 });
 
 
@@ -35,4 +37,13 @@ $(document).on("click", "#calculatorBtn", function () {
   $("#home, #policy, #claim, #renewal").hide();
 });
 
+$(document).on("click", "#aboutBtn", function () {
+  $("#about").show();
+  $("#home, #policy, #claim, #renewal, #calculator").hide();
+});
+
+$(document).on("click", "#contactBtn", function () {
+  $("#contact_us").show();
+  $("#home, #policy, #claim, #renewal, #calculator").hide();
+});
  
