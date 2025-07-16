@@ -1,21 +1,21 @@
 <link rel="stylesheet" href="../about/contact_us.css">
 
-<div class="formWrapperUnique">
-  <h2 class="formTitleUnique">Contact Us</h2>
-  <form class="formStructureUnique" action="/submit-form" method="POST">
-    <label class="labelNameUnique" for="name">Full Name</label>
-    <input class="inputNameUnique" type="text" id="name" name="name" placeholder="Your name" required>
+<div id="contactUsFormContainer">
+  <h2>Contact Us</h2>
+  <form action="/submit-form" method="POST">
+    <label for="contact_us_name">Full Name</label>
+    <input type="text" id="contact_us_name" name="name" placeholder="Your name" required>
 
-    <label class="labelEmailUnique" for="email">Email Address</label>
-    <input class="inputEmailUnique" type="email" id="email" name="email" placeholder="Your email" required>
+    <label for="contact_us_email">Email Address</label>
+    <input type="email" id="contact_us_email" name="email" placeholder="Your email" required>
 
-    <label class="labelPhoneUnique" for="phone">Phone Number</label>
-    <input class="inputPhoneUnique" type="tel" id="phone" name="phone" placeholder="Your number" required>
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" name="phone" placeholder="Your number" required>
 
-    <label class="labelMessageUnique" for="message">Your Message</label>
-    <textarea class="textareaMessageUnique" id="message" name="message" rows="4" placeholder="How can we help you?" required></textarea>
+    <label for="message">Your Message</label>
+    <textarea id="message" name="message" rows="4" placeholder="How can we help you?" required></textarea>
 
-    <button class="buttonSubmitUnique" type="submit">Send Message</button>
+    <button type="submit">Send Message</button>
   </form>
 </div>
 
