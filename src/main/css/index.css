@@ -1,3 +1,18 @@
-body{
-    background-color: white !important;
+body {
+  position: relative;
+  background-color: white !important;
+  min-height: 94vh !important;
+}
+
+.tab-section {
+  display: none;
+}
+
+.tab-section.active {
+  display: block;
+}
+
+.footerDiv {
+  bottom: -50px;
+  min-height: 6vh;
 }

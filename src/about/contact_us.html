@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="../about/contact_us.css">
+
+<div id="contactUsFormContainer">
+  <h2>Contact Us</h2>
+  <form action="/submit-form" method="POST">
+    <label for="contact_us_name">Full Name</label>
+    <input type="text" id="contact_us_name" name="name" placeholder="Your name" required>
+
+    <label for="contact_us_email">Email Address</label>
+    <input type="email" id="contact_us_email" name="email" placeholder="Your email" required>
+
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" name="phone" placeholder="Your number" required>
+
+    <label for="message">Your Message</label>
+    <textarea id="message" name="message" rows="4" placeholder="How can we help you?" required></textarea>
+
+    <button type="submit">Send Message</button>
+  </form>
+</div>
+
+

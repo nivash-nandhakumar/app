@@ -1,0 +1,102 @@
+<link rel="stylesheet" href="../admin/admin.css"/>
+<script src="../admin/admin.js"></script>
+
+<div>
+  <h2>Admin Dashboard</h2>
+
+  <!-- Buttons -->
+  <div class="mb-4">
+    <button id="btnClaimApproval" class="btn btn-primary me-2">Claim Approval</button>
+    <button id="btnRoleAssign" class="btn btn-secondary">Role Assign</button>
+  </div>
+
+  <!-- Claim Approval Section -->
+  <div id="claimApprovalSection" class="admin_part_hidden">
+    <h4>Policy Claims</h4>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>S.No.</th>
+          <th>Claim ID</th>
+          <th>Policy ID</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Action</th>
+          <th>Remark</th>
+          <th>Submit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>CL001</td>
+          <td>POL123</td>
+          <td>₹50,000</td>
+          <td>2025-07-15</td>
+          <td>Pending</td>
+          <td>
+            <select class="form-select actionSelect">
+              <option value="">Select</option>
+              <option value="Accept">Accept</option>
+              <option value="Reject">Reject</option>
+            </select>
+          </td>
+          <td>
+            <input type="text" class="form-control" placeholder="Enter remark" />
+          </td>
+          <td>
+            <button class="btn btn-sm btn-success submitClaimBtn">Submit</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Role Assign Section -->
+  <div id="roleAssignSection" class="admin_part_hidden">
+    <h4>Agent Roles</h4>
+    <table id="agentTable" class="table table-bordered">
+      <thead>
+        <tr>
+          <th>S.No.</th>
+          <th>Name</th>
+          <th>Role</th>
+          <th>District</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamic rows -->
+      </tbody>
+    </table>
+
+    <button id="btnAddAgentForm" class="btn btn-success">Add Agent</button>
+
+    <!-- Add/Edit Agent Form -->
+    <div id="addAgentForm" class="mt-20 admin_part_hidden">
+      <h5 id="formTitle">Add New Agent</h5>
+      <div class="mb-2">
+        <input type="text" id="agentName" class="form-control" placeholder="Name" />
+      </div>
+      <div class="mb-2">
+        <label>Role:</label>
+        <select id="agentRole" class="form-select">
+          <option value="Agent">Agent</option>
+          <option value="Manager">Manager</option>
+        </select>
+      </div>
+      <div class="mb-2">
+        <label>Select District(s):</label>
+        <select id="agentDistricts" class="form-select" multiple>
+          <option>Hyderabad</option>
+          <option>Warangal</option>
+          <option>Nizamabad</option>
+          <option>Karimnagar</option>
+          <option>Khammam</option>
+        </select>
+      </div>
+      <button id="btnAddAgent" class="btn btn-primary">Add</button>
+    </div>
+  </div>
+</div>
