@@ -1,5 +1,5 @@
 
-.hero{
+ .hero{
     background-color: transparent;
 }
  .card{
@@ -7,4 +7,13 @@ border: none;
 background-color: transparent;
 box-shadow: none;
  }
-                   
+                    
+.benefit-card{
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin: 10px 0;
+
+}
