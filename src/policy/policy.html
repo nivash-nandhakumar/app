@@ -21,6 +21,7 @@
   <div class= "mb-4">
     <button class="btn btn-primary" onclick="scrollToSection('viewPoliciesSection')">View Current Policies</button>
     <button class="btn btn-info" onclick="scrollToSection('updatePolicySection')">Update Policy Information</button>
+    <button class="btn btn-success" onclick="activateTab('calculator')">Add new Policy</button>
   </div>
 
   <!-- View Current Policies Section -->
@@ -83,114 +84,5 @@
 </script>
 
 </body>
-
-<!-- <div class="container mt-5">
-  <h2 class="text-center mb-4">Policies Dashboard</h2>
-
-  <div class="text-center mb-4">
-    <a href="#view-policies" class="btn btn-outline-primary m-2">View Current Policies</a>
-    <a href="#update-policy-info" class="btn btn-outline-secondary m-2">Update Policy Information</a>
-    <a href="#add-new-policy" class="btn btn-outline-success m-2">Add New Policy</a>
-
-  </div> -->
-
-  <!-- View Section -->
-  <!-- <div class="container mt-5">
-  <h3 class="text-primary mb-4">View Current Policies</h3>
-
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover align-middle">
-      <thead class="table-light">
-        <tr>
-          <th scope="col">Policy Number</th>
-          <th scope="col">Vehicle</th>
-          <th scope="col">Coverage Type</th>
-          <th scope="col">Start Date</th>
-          <th scope="col">Expiration Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>#123456</td>
-          <td>Honda Civic 2020</td>
-          <td>Comprehensive</td>
-          <td>2024-01-01</td>
-          <td>2025-12-31</td>
-        </tr>
-        <tr>
-          <td>#789012</td>
-          <td>Toyota Corolla 2019</td>
-          <td>Basic</td>
-          <td>2023-08-15</td>
-          <td>2024-08-15</td>
-        </tr>
-        <tr>
-          <td>#345678</td>
-          <td>Ford EcoSport 2021</td>
-          <td>Premium</td>
-          <td>2024-06-10</td>
-          <td>2026-06-10</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
- </form>
-  </div>
-<div class="container mt-5">
-  <h2>Update Policy Information</h2>
-  <form id="policyForm">
-    <div class="mb-3 fw-bold">
-      <label for="policyNumber" class="form-label">Policy Number</label>
-      <input type="text" class="form-control" id="policyNumber" required>
-    </div>
-
-    <div class="mb-3 fw-bold">
-      <label for="currentPolicy" class="form-label">Current Policy</label>
-      <select class="form-select" id="currentPolicy" required>
-        <option selected disabled value="">Choose...</option>
-        <option>Basic</option>
-        <option>Silver</option>
-        <option>Gold</option>
-      </select>
-    </div>
-
-    <div class="mb-3 fw-bold">
-      <label for="preferredPolicy" class="form-label">Preferred Policy</label>
-      <select class="form-select" id="preferredPolicy" required>
-        <option selected disabled value="">Choose...</option>
-        <option>Basic</option>
-        <option>Silver</option>
-        <option>Gold</option>
-      </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Update</button>
-  </form>
-</div>
-
-<script>
-  const policyForm = document.getElementById('policyForm');
-  const paymentSection = document.getElementById('paymentSection');
-  const paymentMessage = document.getElementById('paymentMessage');
-
-  const policyCosts = {
-    Basic: 1000,
-    Silver: 2000,
-    Gold: 3000
-  };
-
-  policyForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const preferredPolicy = document.getElementById('preferredPolicy').value;
-    const cost = policyCosts[preferredPolicy];
-
-    paymentMessage.textContent = `You have selected the ${preferredPolicy} policy. The cost is ₹${cost}.`;
-    policyForm.style.display = 'none';
-    paymentSection.style.display = 'block';
-  });
-</script>
-</body> -->
-
 
 </html>

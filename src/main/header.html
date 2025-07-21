@@ -1,101 +1,41 @@
 <link href="./css/header.css" rel="stylesheet" />
-<script src="./js/login.js"></script>
 <script src="./js/header.js"></script>
+<script src="../user/user.js"></script>
+<script src="../user/login.js"></script>
+<script src="../user/signUp.js"></script>
+<script src="../user/profile.js"></script>
 
-<header
-  class="d-flex justify-content-between p-2 text-white headerContainer align-content-center"
->
-  <h2>Vexura</h2>
-  <nav
-    class="d-flex p-2 text-white justify-content-between w-50 align-items-center"
-  >
+
+<header class="d-flex justify-content-between p-2 px-5 text-white headerContainer align-content-center ">
+  <h2 class="m=0" style="cursor: pointer;" onclick="activateTab('home')">Vexura</h2>
+  <nav class="d-flex p-2 text-white justify-content-between w-50 align-items-center">
     <p class="nav-link" data-tab="home">Home</p>
     <p class="nav-link" data-tab="policy">Policy</p>
     <p class="nav-link" data-tab="claim">claim</p>
     <p class="nav-link" data-tab="renewal">Renewal</p>
     <p class="nav-link" data-tab="BeaAgent">Become an agent</p>
-    <p class="nav-link" data-tab="calculator">prevCal</p>
 
     <!-- <p class="header-menu-items" id="loginBtn">Login</p> -->
-    <button
-      type="button"
-      class="btn btn-primary"
-      data-bs-toggle="modal"
-      data-bs-target="#loginModal"
-    >
-      Login
-    </button>
+    <div class="dropdown">
+      <div class="rounded-circle overflow-hidden" style="width: 3em; height: 3em; cursor: pointer;"  id="userIcon" data-bs-toggle="dropdown" aria-expanded="false" >
+        <img class="img-fluid"  src="" alt="avatar" id="header_avatar">
+      </div>
+      <!-- <i class="fa fa-user-circle fa-2x user-icon" id="userIcon" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;"></i> -->
+      <ul class="dropdown-menu" id="userMenu"></ul>
+    </div>
   </nav>
 </header>
 
-<!-- Login Modal -->
-<div
-  class="modal fade"
-  id="loginModal"
-  tabindex="-1"
-  aria-labelledby="loginModalLabel"
-  aria-hidden="true"
->
+<!-- Modal -->
+<div class="modal fade" id="customModal" tabindex="-1" aria-labelledby="customModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="d-flex justify-content-end position-relative">
-        <button
-          onclick="clearValue()"
-          type="button"
-          class="btn-close position-absolute modalCloseBtn"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+      <div class="modal-header">
+        <h5 class="modal-title" id="customModalLabel">Modal Title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
-      <div class="modal-body z-1">
-        <div class="login-container d-flex">
-          <div
-            class="login-form w-50 d-flex justify-content-center align-content-center"
-          >
-            <div>
-              <h2>WELCOME BACK</h2>
-              <p>Please enter your details.</p>
-              <form>
-                <div class="form-group">
-                  <label>Email</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    placeholder="Enter your email"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label>Password</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    placeholder="Enter your password"
-                    required
-                  />
-                </div>
-                <div class="form-group d-flex justify-content-between">
-                  <div>
-                    <input type="checkbox" id="remember" />
-                    <label for="remember">Remember me</label>
-                  </div>
-                  <a href="#">Forgot password?</a>
-                </div>
-                <button type="submit" class="btn btn-danger btn-block">
-                  Sign in
-                </button>
-                <p class="mt-3 text-center">
-                  Don't have an account?
-                  <a href="signup.html">Sign up for free!</a>
-                </p>
-              </form>
-            </div>
-          </div>
-          <div class="illustration bg-success">
-            <img class="img-fluid w-100" src="../assets/loginCover.jpg" />
-          </div>
-        </div>
+      <div class="modal-body" id="modalContent">
+        <!-- Dynamic content will be injected here -->
       </div>
     </div>
   </div>

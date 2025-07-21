@@ -1,13 +1,15 @@
-<link rel="stylesheet" href="../admin/admin.css"/>
+<link rel="stylesheet" href="../admin/admin.css" />
 <script src="../admin/admin.js"></script>
 
-<div>
+<div class="container mt-4">
   <h2>Admin Dashboard</h2>
 
   <!-- Buttons -->
   <div class="mb-4">
     <button id="btnClaimApproval" class="btn btn-primary me-2">Claim Approval</button>
-    <button id="btnRoleAssign" class="btn btn-secondary">Role Assign</button>
+    <button id="btnClaimList" class="btn btn-info me-2">Claim List</button>
+    <button id="btnRenewalList" class="btn btn-warning">Renewal List</button>
+    <button id="btnRoleAssign" class="btn btn-success me-2">Role Assign</button>
   </div>
 
   <!-- Claim Approval Section -->
@@ -27,28 +29,8 @@
           <th>Submit</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>CL001</td>
-          <td>POL123</td>
-          <td>₹50,000</td>
-          <td>2025-07-15</td>
-          <td>Pending</td>
-          <td>
-            <select class="form-select actionSelect">
-              <option value="">Select</option>
-              <option value="Accept">Accept</option>
-              <option value="Reject">Reject</option>
-            </select>
-          </td>
-          <td>
-            <input type="text" class="form-control" placeholder="Enter remark" />
-          </td>
-          <td>
-            <button class="btn btn-sm btn-success submitClaimBtn">Submit</button>
-          </td>
-        </tr>
+      <tbody id="claimTableBody">
+        <!-- Dynamic rows -->
       </tbody>
     </table>
   </div>
@@ -89,14 +71,50 @@
       <div class="mb-2">
         <label>Select District(s):</label>
         <select id="agentDistricts" class="form-select" multiple>
-          <option>Hyderabad</option>
-          <option>Warangal</option>
-          <option>Nizamabad</option>
-          <option>Karimnagar</option>
-          <option>Khammam</option>
+          <!-- District options will be injected via JS -->
         </select>
       </div>
       <button id="btnAddAgent" class="btn btn-primary">Add</button>
     </div>
+  </div>
+
+  <!-- Claim List Section -->
+  <div id="claimListSection" class="admin_part_hidden">
+    <h4>Claims</h4>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Claim ID</th>
+          <th>Policy ID</th>
+          <th>ID	Amount</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="claimListTableBody">
+        <!-- Dynamic rows -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Renewal List Section -->
+  <div id="renewalListSection" class="admin_part_hidden">
+    <h4>Renewals</h4>
+    <table class="table table-bordered">
+      <thead>
+        <tr>		
+          <th>S.No</th>
+          <th>Renewal ID</th>
+          <th>Policy ID</th>
+          <th>Renewal Date</th>
+          <th>New Premium</th>
+          <th>Expiry Year</th>
+        </tr>
+      </thead>
+      <tbody id="renewalListTableBody">
+        <!-- Dynamic rows -->
+      </tbody>
+    </table>
   </div>
 </div>

@@ -9,9 +9,9 @@
 }
 
 .nav-link.active {
-  /* background-color: rgba(255, 255, 255, 0.881);
-  color: black; */
-  border-radius: 3em;
+  /* background-color: rgba(255, 255, 255, 0.881); */
+  /* color: black; */
+  /* border-radius: 3em; */
   text-decoration: underline;
 }
 
@@ -19,14 +19,26 @@
   color: white;
 }
 
-.modal-body {
-  padding: 0;
-  z-index: 1;
+.modal-section {
+  transition: opacity 0.3s ease;
 }
 
-.modalCloseBtn {
-  z-index: 2;
+.dropdown-menu { 
+  transform: translate(-1.7em, 2em) !important;
+  min-width: 6em !important;
+  opacity: 0;
+  transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+  visibility: hidden;
+  pointer-events: none;
 }
+
+.dropdown-menu.show {
+  transform: translate(-1.7em, 3.2em) !important;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
 
 @media (min-width: 576px) {
   .modal-dialog {

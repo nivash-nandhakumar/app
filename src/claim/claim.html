@@ -1,140 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Claim Management</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    
-    .card { box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-  </style>
-</head>
-<body>
-  <div class="container mt-4">
-    <h2 class="text-center text-primary mb-4">Accident Claim Management</h2>
-    <div class="row g-4">
-      <div class="col-md-6">
-        <div class="card p-4">
-          <h5 class="mb-3">Submit a New Claim</h5>
-          <form id="claimForm">
-            <div class="mb-3">
-              <label for="policyId" class="form-label">Policy ID</label>
-              <input type="text" class="form-control" id="policyId" required>
-            </div>
-            <div class="mb-3">
-              <label for="claimAmount" class="form-label">Claim Amount</label>
-              <input type="number" class="form-control" id="claimAmount" readonly placeholder="Auto-filled based on Policy ID">
-            </div>
-            <div class="mb-3">
-              <label for="claimReason" class="form-label">Reason</label>
-              <textarea class="form-control" id="claimReason" rows="3" required></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="proofFile" class="form-label">Upload Proof (PDF only)</label>
-              <input type="file" class="form-control" id="proofFile" accept=".pdf" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Submit Claim</button>
-          </form>
+<link rel="stylesheet" href="../claim/claim.css" />
+<script src="../claim/claim.js"></script>
+
+<div class="container mt-5">
+  <div class="row">
+    <!-- Submit a New Claim Form -->
+    <div class="col-md-5">
+      <h3>Request a Claim</h3>
+
+      <form id="claimForm">
+        <div class="form-group mb-3">
+          <label class="form-label" for="claim_policyId">Policy ID</label>
+          <select class="form-control" id="claim_policyId" required>
+            <option value="">Select Policy</option>
+            <!-- Options will be added dynamically -->
+          </select>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card p-4">
-          <h5 class="mb-3">Claim Status</h5>
-          <table class="table table-bordered" id="claimTable">
-            <thead class="table-light">
-              <tr>
-                <th>Claim ID</th>
-                <th>Policy ID</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Populated by JavaScript -->
-            </tbody>
-          </table>
+
+        <div class="form-group mb-3">
+          <label class="form-label" for="claimAmount">Claim Amount</label>
+          <input type="number" class="form-control" id="claimAmount" readonly required />
         </div>
-      </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label" for="reason">Reason</label>
+          <textarea class="form-control" id="reason" rows="4" required></textarea>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Proof for the reason</label>
+          <div class="input-group">
+            <input type="text" id="proofFile_name" class="form-control" placeholder="No file chosen" readonly />
+            <input type="file" id="proofFile" name="proofFile" class="d-none" accept=".jpg,.jpeg,.png,.pdf" />
+            <button type="button" class="btn btn-secondary" id="claim_browseBtn">Browse</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit Claim</button>
+      </form>
+    </div>
+
+    <!-- Claim Status Table -->
+    <div class="col-md-7">
+      <h4>Claim Status</h4>
+      <table class="table table-bordered" id="claimTable">
+        <thead>
+          <tr>
+            <th>Claim ID</th>
+            <th>Policy ID</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- New rows will be appended here -->
+        </tbody>
+      </table>
     </div>
   </div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const policyMap = {
-      "POL1001": 5000,
-      "POL1002": 7500,
-      "POL1003": 10000,
-      "POL1004": 12000,
-      "POL1005": 15000
-    };
-
-    const policyInput = document.getElementById('policyId');
-    const amountInput = document.getElementById('claimAmount');
-    const form = document.getElementById('claimForm');
-
-    policyInput.addEventListener('blur', function () {
-      const enteredId = policyInput.value.trim().toUpperCase();
-      if (policyMap[enteredId]) {
-        amountInput.value = policyMap[enteredId];
-      } else {
-        amountInput.value = '';
-      }
-    });
-
-    function loadClaims() {
-      const claims = JSON.parse(localStorage.getItem('claims') || '[]');
-      const tbody = document.querySelector('#claimTable tbody');
-      tbody.innerHTML = '';
-      claims.forEach(claim => {
-        const row = `<tr>
-          <td>${claim.claimId}</td>
-          <td>${claim.policyId}</td>
-          <td>${claim.claimAmount}</td>
-          <td>${claim.claimDate}</td>
-          <td>${claim.claimStatus}</td>
-        </tr>`;
-        tbody.innerHTML += row;
-      });
-    }
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const enteredId = policyInput.value.trim().toUpperCase();
-      const claimAmount = amountInput.value;
-      const claimReason = document.getElementById('claimReason').value;
-      const fileInput = document.getElementById('proofFile');
-      const file = fileInput.files[0];
-
-      if (!policyMap[enteredId]) {
-        alert('Invalid Policy ID');
-        return;
-      }
-
-      if (!file || file.type !== 'application/pdf') {
-        alert('Please upload a valid PDF file as proof.');
-        return;
-      }
-
-      const claims = JSON.parse(localStorage.getItem('claims') || '[]');
-      const newClaim = {
-        claimId: 'CLM' + (claims.length + 1).toString().padStart(4, '0'),
-        policyId: enteredId,
-        claimAmount: claimAmount,
-        claimReason: claimReason,
-        claimDate: new Date().toLocaleDateString(),
-        claimStatus: 'SUBMITTED'
-      };
-      claims.unshift(newClaim);
-      localStorage.setItem('claims', JSON.stringify(claims));
-      loadClaims();
-      form.reset();
-      amountInput.value = '';
-      alert('Claim initiated');
-    });
-
-    loadClaims();
-  });
-</script>
-</body>
-</html>
+</div>

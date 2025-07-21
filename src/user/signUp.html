@@ -1,0 +1,85 @@
+<link rel="stylesheet" href="../user/css/signup.css">
+<script src="../user/signUp.js"></script>
+
+
+<div id="signUpSection">
+  <div class="signUp-container d-flex">
+    <!-- Form Section -->
+    <div class="signUp-form d-flex w-50 justify-content-center align-items-center">
+      <form id="signUpForm" class="w-100 px-4">
+        <!-- Name -->
+        <div class="form-group mb-3">
+          <label>Name</label>
+          <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group mb-3">
+          <label>Email</label>
+          <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group mb-3">
+          <label>Gender</label>
+          <div class="d-flex justify-content-between">
+            <div>
+              <input type="radio" id="male" name="gender" value="Male" required>
+              <label>Male</label>
+            </div>
+            <div>
+              <input type="radio" id="female" name="gender" value="Female">
+              <label>Female</label>
+            </div>
+            <div>
+              <input type="radio" id="other" name="gender" value="Other">
+              <label>Other</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Number -->
+        <div class="form-group mb-3">
+          <label>Mobile Number</label>
+          <input type="tel" id="mobile" name="mobile" class="form-control" placeholder="Enter your mobile number" required>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group mb-3">
+          <label>Password</label>
+          <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group mb-3 position-relative">
+          <label>Confirm Password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Re-enter your password" required>
+          <div id="passwordMatchFeedback" class="invalid-feedback">Passwords do not match.</div>
+          <span id="passwordMatchIcon" class="position-absolute top-50 end-0 translate-middle-y me-3" style="display:none;"></span>
+        </div>
+
+       <!-- Driving License Upload -->
+        <div class="form-group mb-3">
+          <label>Driving License</label>
+          <div class="input-group">
+            <input type="text" id="licenseFileName" class="form-control" placeholder="No file chosen" readonly>
+            <input type="file" id="licenseFile" name="licenseFile" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
+            <button type="button" class="btn btn-secondary" id="browseBtn">Browse</button>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success btn-block w-100">Sign Up</button>
+        <p class="mt-3 text-center">
+          Already have an account?
+          <a data-bs-target="#customModal" href="#" id="loginBtn">Sign in here</a>
+        </p>
+      </form>
+    </div>
+
+    <!-- Illustration Section -->
+    <div class="illustration w-50 d-flex justify-content-center align-items-center">
+      <img class="img-fluid" src="../assets/signupCover.png" alt="Sign Up Illustration" />
+    </div>
+  </div>
+</div>
