@@ -5,9 +5,13 @@
 <script src="../user/signUp.js"></script>
 <script src="../user/profile.js"></script>
 
-
-<header class="d-flex justify-content-between p-2 px-5 text-white headerContainer align-content-center ">
-  <h2 class="m=0" style="cursor: pointer;" onclick="activateTab('home')">Vexura</h2>
+<header class="d-flex justify-content-between p-2 px-5 text-white headerContainer align-content-center">
+  <div class="d-flex align-items-center"  onclick="activateTab('home')">
+    <div class="rounded-circle overflow-hidden me-3" style="width: 3em; height: 3em; cursor: pointer">
+      <img class="img-fluid " src="../assets/logo.png" alt="logo" />
+    </div>
+    <h2 class="m=0 align-content-center" style="cursor: pointer">Vexura</h2>
+  </div>
   <nav class="d-flex p-2 text-white justify-content-between w-50 align-items-center">
     <p class="nav-link" data-tab="home">Home</p>
     <p class="nav-link" data-tab="policy">Policy</p>
@@ -17,8 +21,14 @@
 
     <!-- <p class="header-menu-items" id="loginBtn">Login</p> -->
     <div class="dropdown">
-      <div class="rounded-circle overflow-hidden" style="width: 3em; height: 3em; cursor: pointer;"  id="userIcon" data-bs-toggle="dropdown" aria-expanded="false" >
-        <img class="img-fluid"  src="" alt="avatar" id="header_avatar">
+      <div
+        class="rounded-circle overflow-hidden"
+        style="width: 3em; height: 3em; cursor: pointer"
+        id="userIcon"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img class="img-fluid" src="" alt="avatar" id="header_avatar" />
       </div>
       <!-- <i class="fa fa-user-circle fa-2x user-icon" id="userIcon" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;"></i> -->
       <ul class="dropdown-menu" id="userMenu"></ul>
