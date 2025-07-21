@@ -1,11 +1,6 @@
 .footerContainer{
     background-color: #023864;
 }
-.footerDiv{
-    bottom: -50px;
-    min-height: 6vh;
-    width: 100%;
-}
 .site p {
     width: max-content;
 }

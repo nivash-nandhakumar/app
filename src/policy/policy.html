@@ -9,20 +9,93 @@
 
   
 </head>
-<body>
 
+
+<!-- <body>  -->
+<body>
 <div class="container mt-5">
+  <h2 class="text-center mb-4">Policies Dashboard</h2>
+  </div>  
+<div class="container mt-4">
+  <!-- Navigation Buttons -->
+  <div class= "mb-4">
+    <button class="btn btn-primary" onclick="scrollToSection('viewPoliciesSection')">View Current Policies</button>
+    <button class="btn btn-info" onclick="scrollToSection('updatePolicySection')">Update Policy Information</button>
+  </div>
+
+  <!-- View Current Policies Section -->
+  <section id="viewPoliciesSection">
+    <h2>View Current Policies</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Policy Number</th>
+          <th>Vehicle</th>
+          <th>Coverage Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>#123456</td><td>Honda Civic 2020</td><td>Comprehensive</td></tr>
+        <tr><td>#789012</td><td>Toyota Corolla 2019</td><td>Basic</td></tr>
+        <tr><td>#345678</td><td>Ford EcoSport 2021</td><td>Premium</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Update Policy Information Section -->
+  <section id="updatePolicySection">
+    <h2>Update Policy Information</h2>
+    <form>
+      <div class="mb-3">
+        <label for="policyNumber" class="form-label">Policy Number</label>
+        <input type="text" class="form-control" id="policyNumber">
+      </div>
+
+      <div class="mb-3">
+        <label for="currentPolicy" class="form-label">Current Policy</label>
+        <select class="form-select" id="currentPolicy">
+          <option>Basic</option>
+          <option>Silver</option>
+          <option>Gold</option>
+          <option>Premium</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="preferredPolicy" class="form-label">Preferred Policy</label>
+        <select class="form-select" id="preferredPolicy">
+          <option>Basic</option>
+          <option>Silver</option>
+          <option>Gold</option>
+          <option>Premium</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-success">Update</button>
+    </form>
+  </section>
+</div>
+
+<script>
+  function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+
+</body>
+
+<!-- <div class="container mt-5">
   <h2 class="text-center mb-4">Policies Dashboard</h2>
 
   <div class="text-center mb-4">
     <a href="#view-policies" class="btn btn-outline-primary m-2">View Current Policies</a>
     <a href="#update-policy-info" class="btn btn-outline-secondary m-2">Update Policy Information</a>
     <a href="#add-new-policy" class="btn btn-outline-success m-2">Add New Policy</a>
-    <!-- <a href="#policy-faqs" class="btn btn-outline-info m-2">Policy FAQs</a> -->
-  </div>
+
+  </div> -->
 
   <!-- View Section -->
-  <div class="container mt-5">
+  <!-- <div class="container mt-5">
   <h3 class="text-primary mb-4">View Current Policies</h3>
 
   <div class="table-responsive">
@@ -62,45 +135,62 @@
     </table>
   </div>
 </div>
-<!-- Update Section -->
-  <div id="update-policy-info" class="policy-section">
-    <h4>Update Policy Information</h4>
-    <form id="update-policy-form">
-      <div class="mb-3">
-        <label for="policy-number" class="form-label">Policy Number</label>
-        <input type="text" class="form-control" id="policy-number" required>
-      </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email Address</label>
-        <input type="email" class="form-control" id="email" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+ </form>
   </div>
-<!-- Add Section -->
-  <div id="add-new-policy" class="policy-section">
-    <h4>Add New Policy</h4>
-    <form id="add-policy-form">
-      <div class="mb-3">
-        <label for="owner-name" class="form-label">Owner Name</label>
-        <input type="text" class="form-control" id="owner-name" required>
-      </div>
-      <div class="mb-3">
-        <label for="vehicle-info" class="form-label">Vehicle Information</label>
-        <input type="text" class="form-control" id="vehicle-info" required>
-      </div>
-      <div class="mb-3">
-        <label for="coverage-type" class="form-label">Coverage Type</label>
-        <select class="form-select" id="coverage-type" required>
-          <option value="">Select coverage</option>
-          <option value="basic">Basic</option>
-          <option value="comprehensive">Comprehensive</option>
-          <option value="premium">Premium</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-success">Add Policy</button>
-    </form>
-  </div>
+<div class="container mt-5">
+  <h2>Update Policy Information</h2>
+  <form id="policyForm">
+    <div class="mb-3 fw-bold">
+      <label for="policyNumber" class="form-label">Policy Number</label>
+      <input type="text" class="form-control" id="policyNumber" required>
+    </div>
+
+    <div class="mb-3 fw-bold">
+      <label for="currentPolicy" class="form-label">Current Policy</label>
+      <select class="form-select" id="currentPolicy" required>
+        <option selected disabled value="">Choose...</option>
+        <option>Basic</option>
+        <option>Silver</option>
+        <option>Gold</option>
+      </select>
+    </div>
+
+    <div class="mb-3 fw-bold">
+      <label for="preferredPolicy" class="form-label">Preferred Policy</label>
+      <select class="form-select" id="preferredPolicy" required>
+        <option selected disabled value="">Choose...</option>
+        <option>Basic</option>
+        <option>Silver</option>
+        <option>Gold</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
 </div>
-</body>
+
+<script>
+  const policyForm = document.getElementById('policyForm');
+  const paymentSection = document.getElementById('paymentSection');
+  const paymentMessage = document.getElementById('paymentMessage');
+
+  const policyCosts = {
+    Basic: 1000,
+    Silver: 2000,
+    Gold: 3000
+  };
+
+  policyForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const preferredPolicy = document.getElementById('preferredPolicy').value;
+    const cost = policyCosts[preferredPolicy];
+
+    paymentMessage.textContent = `You have selected the ${preferredPolicy} policy. The cost is ₹${cost}.`;
+    policyForm.style.display = 'none';
+    paymentSection.style.display = 'block';
+  });
+</script>
+</body> -->
+
+
 </html>

@@ -12,7 +12,7 @@ $(document).ready(function () {
     }
 
   // Hide Role Assign button if user is Agent
-  if (currentUserRole === "Agent") {
+  if (user_mode === "Agent") {
     $("#btnRoleAssign").hide();
   }
 
