@@ -1,6 +1,6 @@
 
   
-  $(document).ready(function () {
+ $(document).ready(function () {
     $('#years').val(1); // Default year
 
     

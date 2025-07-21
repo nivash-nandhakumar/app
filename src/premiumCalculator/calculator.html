@@ -3,7 +3,8 @@
 
 
   <!-- Form Section -->
-  <div class="container mt-5">
+  
+<div class="container mt-5">
   <h2 class="mb-4 ">Premium Calculator</h2>
   <form id="premiumForm">
     <div class="row">
@@ -122,11 +123,11 @@
 <div class="modal fade" id="ownerModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
+      <form id="paymentmethod">
       <div class="modal-body d-flex">
         <!-- Left Side: Owner Info -->
         <div class="col-md-6 pe-4 border-end">
           <h4 class="mb-3 fw-bold">Owner Information</h4>
-          <form id="paymentmethod">
             <div class="mb-3">
               <label for="ownerName" class="form-label">Name</label>
               <input type="text" class="form-control" id="ownerNameModal" required>
@@ -149,7 +150,7 @@
             </div>
           
          
-            </div>
+        </div>
                     <!-- Right Side: Vehicle Info -->
             <div class="col-md-6 ps-4 ">
               <h4 class="fw-bold mb-3">Plan Summary</h4>
@@ -197,11 +198,12 @@
               <!-- Alert Message -->
               
             </div>
-          </form>
+
           
-          </div>
-        </div>
       </div>
+      </form>
     </div>
+  </div>
+</div>
 
 
