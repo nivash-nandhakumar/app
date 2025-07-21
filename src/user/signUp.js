@@ -1,28 +1,31 @@
-$(document).ready(function () {
-  $("#browseBtn").click(function () {
-    $("#licenseFile").click();
-  });
+function checkValidity(i, status){
+if (status) {
+    $(i).removeClass("is-invalid").addClass("is-valid");
+    $("#passwordStrengthFeedback").hide();
+    $("#passwordStrengthIcon").show();
+  } else {
+    $(i).removeClass("is-valid").addClass("is-invalid");
+    $("#passwordStrengthFeedback").show();
+    $("#passwordStrengthIcon").hide();
+  }
+}
 
-  // Show selected file name
-  $("#licenseFile").change(function () {
-    const fileName = $(this).val().split("\\").pop();
-    $("#licenseFileName").val(fileName);
-  });
+$(document).ready(function () {
+
+
+  $("#password").on("input", function () {
+  const password = $(this).val();
+  const isStrong = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/.test(password);
+
+  checkValidity(this, isStrong);
+});
 
   // Real-time password match validation
   $("#confirmPassword").on("input", function () {
     const password = $("#password").val();
     const confirmPassword = $(this).val();
 
-    if (confirmPassword === password && confirmPassword !== "") {
-      $(this).removeClass("is-invalid").addClass("is-valid");
-      $("#passwordMatchFeedback").hide();
-      $("#passwordMatchIcon").show();
-    } else {
-      $(this).removeClass("is-valid").addClass("is-invalid");
-      $("#passwordMatchFeedback").show();
-      $("#passwordMatchIcon").hide();
-    }
+    checkValidity(this, confirmPassword === password && confirmPassword !== "");
   });
 
   // Form submission
@@ -35,15 +38,6 @@ $(document).ready(function () {
     $.each(formArray, function (_, field) {
       jsonData[field.name] = field.value;
     });
-
-    // Add license file name manually
-    jsonData.licenseFile = $("#licenseFileName").val();
-
-    // Password match check
-    if (jsonData.password !== jsonData.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
 
     console.log("Form Data as JSON:", JSON.stringify(jsonData, null, 2));
 
