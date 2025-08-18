@@ -29,32 +29,64 @@ $(document).ready(function () {
   });
 
   // Form submission
-  $("#signUpForm").on("submit", function (e) {
+  $("#signUpForm").on("submit", async function (e) {
     e.preventDefault(); // Prevent form submission
 
-    const formArray = $(this).serializeArray();
-    const jsonData = {};
+    const submitBtn = $("#signUpSubmitBtn");
+    const originalText = submitBtn.html();
+    
+    try {
+      showLoading("signUpSubmitBtn");
+      
+      const formArray = $(this).serializeArray();
+      const signupData = {};
 
-    $.each(formArray, function (_, field) {
-      jsonData[field.name] = field.value;
-    });
+      $.each(formArray, function (_, field) {
+        signupData[field.name] = field.value;
+      });
 
-    console.log("Form Data as JSON:", JSON.stringify(jsonData, null, 2));
+      // Set default role as USER
+      signupData.role = "USER";
+      
+      console.log("Attempting signup with:", signupData);
 
-    isLoggedIn = true;
-    user_mode = "User";
-    localStorage.setItem("userMode", JSON.stringify("User"));
-    localStorage.setItem("isLoggedIn", JSON.stringify(true));
-    window.location.reload();
-
-    // Reset the form
-    this.reset();
-    // Blur the currently focused element
-    $(document.activeElement).blur();
-
-    // Close the modal using Bootstrap 5 API
-    const modalElement = $("#customModal")[0]; // get DOM element from jQuery object
-    const modalInstance = bootstrap.Modal.getInstance(modalElement);
-    modalInstance.hide();
+      // Call backend signup API
+      const response = await ApiClient.post(API_CONFIG.ENDPOINTS.SIGNUP, signupData);
+      
+      if (response.success) {
+        // Store user data and login state
+        localStorage.setItem("user", JSON.stringify(response.user));
+        localStorage.setItem("userMode", JSON.stringify(response.user.role));
+        localStorage.setItem("isLoggedIn", JSON.stringify(true));
+        
+        // Update global variables
+        isLoggedIn = true;
+        user_mode = response.user.role;
+        
+        showSuccess("Account created successfully! Redirecting...");
+        
+        // Reset the form
+        this.reset();
+        
+        // Close the modal
+        const modalElement = $("#customModal")[0];
+        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+        modalInstance.hide();
+        
+        // Reload page after short delay
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+        
+      } else {
+        showError(response.message || "Signup failed");
+      }
+      
+    } catch (error) {
+      console.error("Signup error:", error);
+      showError("Signup failed: " + error.message);
+    } finally {
+      hideLoading("signUpSubmitBtn", originalText);
+    }
   });
 });

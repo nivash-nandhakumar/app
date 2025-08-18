@@ -1,31 +1,58 @@
 $(document).ready(function () {
-  $("#loginForm").on("submit", function (e) {
+  $("#loginForm").on("submit", async function (e) {
     e.preventDefault(); // Prevent form submission
-    console.log("-------------------------");
+    
+    const submitBtn = $("#loginSubmitBtn");
+    const originalText = submitBtn.html();
+    
+    try {
+      showLoading("loginSubmitBtn");
+      
+      const formArray = $(this).serializeArray();
+      const loginData = {
+        email: formArray.find(field => field.name === 'email').value,
+        password: formArray.find(field => field.name === 'password').value
+      };
 
-    const formArray = $(this).serializeArray();
-    const jsonData = {};
+      console.log("Attempting login with:", loginData.email);
 
-    $.each(formArray, function (_, field) {
-      jsonData[field.name] = field.value;
-    });
-
-    console.log("Form Data as JSON:", JSON.stringify(jsonData, null, 2));
-
-    isLoggedIn = true;
-    user_mode = formArray[2].value;
-    localStorage.setItem("userMode", JSON.stringify(formArray[2].value));
-    localStorage.setItem("isLoggedIn", JSON.stringify(true));
-    window.location.reload();
-
-    // Reset the form
-    this.reset();
-    // Blur the currently focused element
-    $(document.activeElement).blur();
-
-    // Close the modal using Bootstrap 5 API
-    const modalElement = $("#customModal")[0]; // get DOM element from jQuery object
-    const modalInstance = bootstrap.Modal.getInstance(modalElement);
-    modalInstance.hide();
+      // Call backend login API
+      const response = await ApiClient.post(API_CONFIG.ENDPOINTS.LOGIN, loginData);
+      
+      if (response.success) {
+        // Store user data and login state
+        localStorage.setItem("user", JSON.stringify(response.user));
+        localStorage.setItem("userMode", JSON.stringify(response.user.role));
+        localStorage.setItem("isLoggedIn", JSON.stringify(true));
+        
+        // Update global variables
+        isLoggedIn = true;
+        user_mode = response.user.role;
+        
+        showSuccess("Login successful! Redirecting...");
+        
+        // Reset the form
+        this.reset();
+        
+        // Close the modal
+        const modalElement = $("#customModal")[0];
+        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+        modalInstance.hide();
+        
+        // Reload page after short delay
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+        
+      } else {
+        showError(response.message || "Login failed");
+      }
+      
+    } catch (error) {
+      console.error("Login error:", error);
+      showError("Login failed: " + error.message);
+    } finally {
+      hideLoading("loginSubmitBtn", originalText);
+    }
   });
 });
