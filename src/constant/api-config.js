@@ -1,6 +1,6 @@
 // API Configuration
 const API_CONFIG = {
-    BASE_URL: 'http://localhost:8080',
+    BASE_URL: 'http://localhost:8080/api',
     ENDPOINTS: {
         // User endpoints
         USERS: '/users',
