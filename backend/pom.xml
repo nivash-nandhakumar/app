@@ -13,7 +13,8 @@
 
     <groupId>com.vexura</groupId>
     <artifactId>insurance-backend</artifactId>
-    <version>1.0.0</version>
+    <version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
     <name>Vexura Insurance Backend</name>
     <description>Backend API for Vexura Vehicle Insurance Management System</description>
 
@@ -49,13 +50,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.33</version>
         </dependency>
-        
-        <!-- H2 Database for testing -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
 
         <!-- Development Tools -->
         <dependency>
@@ -64,6 +58,13 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+
+        <!-- Server -->
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
         <!-- Testing -->
         <dependency>
