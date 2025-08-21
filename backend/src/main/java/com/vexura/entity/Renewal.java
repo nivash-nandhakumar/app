@@ -19,12 +19,12 @@ public class Renewal {
     private String renewalId;
 
     @NotNull(message = "Policy is required")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "policy_id", nullable = false)
     private Policy policy;
 
     @NotNull(message = "User is required")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

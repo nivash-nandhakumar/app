@@ -19,12 +19,12 @@ public class Claim {
     private String claimId;
 
     @NotNull(message = "Policy is required")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "policy_id", nullable = false)
     private Policy policy;
 
     @NotNull(message = "User is required")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -36,8 +36,9 @@ public class Claim {
     @Column(nullable = false, length = 1000)
     private String reason;
 
-    @Column(name = "proof_file_path")
-    private String proofFilePath;
+    @Lob
+    @Column(name = "proofDocument", columnDefinition = "LONGTEXT")
+    private String proofDocument;
 
     @Column(name = "claim_date", nullable = false)
     private LocalDate claimDate;
@@ -105,8 +106,8 @@ public class Claim {
     public String getReason() { return reason; }
     public void setReason(String reason) { this.reason = reason; }
 
-    public String getProofFilePath() { return proofFilePath; }
-    public void setProofFilePath(String proofFilePath) { this.proofFilePath = proofFilePath; }
+    public String getProofDocument() { return proofDocument; }
+    public void setProofDocument(String proofDocument) { this.proofDocument = proofDocument; }
 
     public LocalDate getClaimDate() { return claimDate; }
     public void setClaimDate(LocalDate claimDate) { this.claimDate = claimDate; }

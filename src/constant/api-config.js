@@ -6,6 +6,7 @@ const API_CONFIG = {
         USERS: '/users',
         LOGIN: '/users/login',
         SIGNUP: '/users/signup',
+        UPLOAD_AVATAR: '/users/{id}/avatar',
         
         // Agent endpoints
         AGENTS: '/agents',
@@ -13,12 +14,17 @@ const API_CONFIG = {
         
         // Policy endpoints
         POLICIES: '/policies',
-        POLICIES_BY_CUSTOMER: '/policies/customer',
+        POLICIES_BY_CUSTOMER: '/policies/customer/{customerId}',
+        UPDATE_POLICY: '/policies/{id}',
         EXPIRED_POLICIES: '/policies/expired',
+
+        // Renewal endpoints
+        RENEWALS: '/renewals',
+        RENEWALS_BY_CUSTOMER: '/renewals/customer/{customerId}',
         
         // Claim endpoints
         CLAIMS: '/claims',
-        CLAIMS_BY_CUSTOMER: '/claims/customer',
+        CLAIMS_BY_CUSTOMER: '/claims/customer/{customerId}',
         PENDING_CLAIMS: '/claims/pending',
         UPLOAD_PROOF: '/claims/{id}/upload-proof',
         UPDATE_CLAIM_STATUS: '/claims/{id}/status'

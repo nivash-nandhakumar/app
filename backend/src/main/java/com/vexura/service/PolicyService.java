@@ -46,6 +46,7 @@ public class PolicyService {
 
         policy.setVehicleType(policyDetails.getVehicleType());
         policy.setVehicleNumber(policyDetails.getVehicleNumber());
+        policy.setCoverageType(policyDetails.getCoverageType());
         policy.setPremiumAmount(policyDetails.getPremiumAmount());
         policy.setCoverageAmount(policyDetails.getCoverageAmount());
         policy.setStartDate(policyDetails.getStartDate());
@@ -61,6 +62,14 @@ public class PolicyService {
 
     public List<Policy> getExpiredPolicies() {
         return policyRepository.findExpiredPolicies(LocalDate.now());
+    }
+
+    public void expirePolicies() {
+        List<Policy> policiesToExpire = policyRepository.findActivePoliciesWithExpiredEndDate(LocalDate.now());
+        for (Policy policy : policiesToExpire) {
+            policy.setStatus(Policy.PolicyStatus.EXPIRED);
+            policyRepository.save(policy);
+        }
     }
 
     public List<Policy> getPoliciesExpiringInDays(int days) {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -79,6 +80,7 @@ public class ClaimController {
             claim.setUser(user);
             claim.setClaimAmount(new java.math.BigDecimal(claimData.get("claimAmount").toString()));
             claim.setReason((String) claimData.get("reason"));
+            claim.setProofDocument((String) claimData.get("proofDocument")); // Set Base64 string
 
             Claim createdClaim = claimService.createClaim(claim);
             return ResponseEntity.ok(Map.of(
@@ -90,41 +92,6 @@ public class ClaimController {
             return ResponseEntity.badRequest().body(Map.of(
                 "success", false,
                 "message", "Error creating claim: " + e.getMessage()
-            ));
-        }
-    }
-
-    @PostMapping("/{id}/upload-proof")
-    public ResponseEntity<Map<String, Object>> uploadProof(@PathVariable Long id, 
-                                                          @RequestParam("file") MultipartFile file) {
-        try {
-            Claim claim = claimService.getClaimById(id)
-                    .orElseThrow(() -> new RuntimeException("Claim not found"));
-
-            // Create upload directory if it doesn't exist
-            Path uploadPath = Paths.get(UPLOAD_DIR);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-
-            // Save file
-            String fileName = claim.getClaimId() + "_" + file.getOriginalFilename();
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(file.getInputStream(), filePath);
-
-            // Update claim with file path
-            claim.setProofFilePath(filePath.toString());
-            claimService.updateClaim(id, claim);
-
-            return ResponseEntity.ok(Map.of(
-                "success", true,
-                "message", "Proof uploaded successfully",
-                "filePath", filePath.toString()
-            ));
-        } catch (IOException e) {
-            return ResponseEntity.badRequest().body(Map.of(
-                "success", false,
-                "message", "Error uploading file: " + e.getMessage()
             ));
         }
     }

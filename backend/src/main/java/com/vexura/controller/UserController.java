@@ -92,4 +92,15 @@ public class UserController {
             "message", "User created successfully"
         ));
     }
+
+    @PostMapping("/{id}/avatar")
+    public ResponseEntity<User> uploadAvatar(@PathVariable Long id, @RequestBody Map<String, String> payload) {
+        try {
+            String displayPicture = payload.get("displayPicture");
+            User updatedUser = userService.updateDisplayPicture(id, displayPicture);
+            return ResponseEntity.ok(updatedUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

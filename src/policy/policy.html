@@ -1,25 +1,14 @@
 <script src="../policy/policy.js"></script>
  <link rel="stylesheet" href="../policy/policy.css"/>  
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Enhanced Policies Dashboard</title>
-
-  
-</head>
 
 
-<!-- <body>  -->
-<body>
 <div class="container mt-5">
   <h2 class="text-center mb-4">Policies Dashboard</h2>
   </div>  
 <div class="container mt-4">
   <!-- Navigation Buttons -->
   <div class= "mb-4">
-    <button class="btn btn-primary" onclick="scrollToSection('viewPoliciesSection')">View Current Policies</button>
+    
     <button class="btn btn-info" onclick="scrollToSection('updatePolicySection')">Update Policy Information</button>
     <button class="btn btn-success" onclick="activateTab('calculator')">Add new Policy</button>
   </div>
@@ -35,10 +24,8 @@
           <th>Coverage Type</th>
         </tr>
       </thead>
-      <tbody>
-        <tr><td>#123456</td><td>Honda Civic 2020</td><td>Comprehensive</td></tr>
-        <tr><td>#789012</td><td>Toyota Corolla 2019</td><td>Basic</td></tr>
-        <tr><td>#345678</td><td>Ford EcoSport 2021</td><td>Premium</td></tr>
+      <tbody id="policy-table-body">
+        <!-- Policy data will be loaded here dynamically -->
       </tbody>
     </table>
   </section>
@@ -48,41 +35,29 @@
     <h2>Update Policy Information</h2>
     <form>
       <div class="mb-3">
-        <label for="policyNumber" class="form-label">Policy Number</label>
-        <input type="text" class="form-control" id="policyNumber">
+        <label for="policyNumberSelect" class="form-label">Policy Number</label>
+        <select class="form-select" id="policyNumberSelect">
+          <option selected>Choose a policy to update...</option>
+          <!-- Policy numbers will be loaded here -->
+        </select>
       </div>
 
       <div class="mb-3">
         <label for="currentPolicy" class="form-label">Current Policy</label>
-        <select class="form-select" id="currentPolicy">
-          <option>Basic</option>
-          <option>Silver</option>
-          <option>Gold</option>
-          <option>Premium</option>
-        </select>
+        <input type="text" class="form-control" id="currentPolicy" readonly>
       </div>
 
       <div class="mb-3">
         <label for="preferredPolicy" class="form-label">Preferred Policy</label>
         <select class="form-select" id="preferredPolicy">
-          <option>Basic</option>
-          <option>Silver</option>
-          <option>Gold</option>
-          <option>Premium</option>
+          <!-- Options will be loaded dynamically -->
         </select>
       </div>
+
+      <!-- Premium Difference Display -->
+      <div id="premiumDifference" class="alert alert-info mt-3" style="display: none;"></div>
 
       <button type="submit" class="btn btn-success">Update</button>
     </form>
   </section>
 </div>
-
-<script>
-  function scrollToSection(id) {
-    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-</script>
-
-</body>
-
-</html>

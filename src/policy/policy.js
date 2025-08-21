@@ -1,148 +1,175 @@
 $(document).ready(function() {
-  // Load user policies on page load
-  loadUserPolicies();
+  let userPolicies = []; // Cache for user policies
 
-  $('#update-policy-form').submit(async function(e) {
-    e.preventDefault();
-    
-    const submitBtn = $("#updatePolicyBtn");
-    const originalText = submitBtn.html();
-    
+  // --- Data Loading and Display ---
+
+  async function loadUserPolicies() {
+    const policyTableBody = $("#policy-table-body");
     try {
-      showLoading("updatePolicyBtn");
-      
-      var policyNumber = $('#policy-number').val().trim();
-      var email = $('#email').val().trim();
-      var emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-
-      if (policyNumber === "") {
-        showError("Policy number is required.");
-        return false;
-      }
-
-      if (!emailPattern.test(email)) {
-        showError("Please enter a valid email address.");
-        return false;
-      }
-
-      // Get policy details from backend
-      const policy = await ApiClient.get(API_CONFIG.ENDPOINTS.POLICIES + '/policy/' + policyNumber);
-      
-      if (policy) {
-        showSuccess("Policy information retrieved successfully!");
-        // You can populate form fields with policy data here
-      }
-      
-    } catch (error) {
-      console.error("Policy lookup error:", error);
-      showError("Policy not found or error occurred: " + error.message);
-    } finally {
-      hideLoading("updatePolicyBtn", originalText);
-    }
-  });
-
-  $('#add-policy-form').submit(async function(e) {
-    e.preventDefault();
-    
-    const submitBtn = $("#addPolicyBtn");
-    const originalText = submitBtn.html();
-    
-    try {
-      showLoading("addPolicyBtn");
-      
-      var owner = $('#owner-name').val().trim();
-      var vehicle = $('#vehicle-info').val().trim();
-      var coverage = $('#coverage-type').val();
-      var startDate = $('#start-date').val();
-      var endDate = $('#end-date').val();
-      var premiumAmount = $('#premium-amount').val();
-      var coverageAmount = $('#coverage-amount').val();
-
-      if (owner === "" || vehicle === "" || coverage === "") {
-        showError("All fields are required for adding a new policy.");
-        return false;
-      }
-
-      // Get current user data
       const currentUser = JSON.parse(localStorage.getItem("user"));
-      if (!currentUser) {
-        showError("Please login first to create a policy.");
-        return false;
+      if (!currentUser || !currentUser.customerId) {
+        policyTableBody.html('<tr><td colspan="3" class="text-center">Please log in to view your policies.</td></tr>');
+        return;
       }
-
-      const policyData = {
-        customerId: currentUser.customerId,
-        vehicleType: coverage,
-        vehicleNumber: vehicle,
-        premiumAmount: premiumAmount || 5000,
-        coverageAmount: coverageAmount || 100000,
-        startDate: startDate || new Date().toISOString().split('T')[0],
-        endDate: endDate || new Date(Date.now() + 365*24*60*60*1000).toISOString().split('T')[0]
-      };
-
-      // Call backend to create policy
-      const response = await ApiClient.post(API_CONFIG.ENDPOINTS.POLICIES, policyData);
-      
-      if (response.success) {
-        showSuccess("New policy created successfully!");
-        this.reset();
-        loadUserPolicies(); // Refresh policy list
-      } else {
-        showError(response.message || "Policy creation failed");
-      }
-      
+      policyTableBody.html('<tr><td colspan="3" class="text-center">Loading policies...</td></tr>');
+      const policies = await ApiClient.get(API_CONFIG.ENDPOINTS.POLICIES_BY_CUSTOMER, { customerId: currentUser.customerId });
+      userPolicies = policies;
+      displayPolicies(userPolicies);
+      populatePolicyDropdown(userPolicies);
     } catch (error) {
-      console.error("Policy creation error:", error);
-      showError("Policy creation failed: " + error.message);
-    } finally {
-      hideLoading("addPolicyBtn", originalText);
+      console.error("Error loading policies:", error);
+      policyTableBody.html('<tr><td colspan="3" class="text-center text-danger">Could not load policies.</td></tr>');
+    }
+  }
+
+  function displayPolicies(policies) {
+    const policyTableBody = $("#policy-table-body");
+    policyTableBody.empty();
+    if (policies && policies.length > 0) {
+      policies.forEach(policy => {
+        const policyRow = `
+          <tr>
+            <td><a href="#" class="view-policy-details-btn text-info text-decoration-none" data-id="${policy.id}">${policy.policyId || 'N/A'}</a></td>
+            <td>${policy.vehicleNumber || 'N/A'}</td>
+            <td>${policy.coverageType || 'N/A'}</td>
+          </tr>
+        `;
+        policyTableBody.append(policyRow);
+      });
+    } else {
+      policyTableBody.html('<tr><td colspan="3" class="text-center">No policies found.</td></tr>');
+    }
+  }
+
+  function populatePolicyDropdown(policies) {
+    const policySelect = $("#policyNumberSelect");
+    policySelect.html('<option value="" selected disabled>Choose a policy...</option>');
+    if (policies && policies.length > 0) {
+      policies.forEach(policy => {
+        const option = $(`<option value="${policy.id}">${policy.policyId} (${policy.vehicleNumber})</option>`);
+        option.data('policy', policy);
+        policySelect.append(option);
+      });
+    }
+  }
+
+  // --- Event Handlers ---
+
+  $('#policy-table-body').on('click', '.view-policy-details-btn', function(e) {
+    e.preventDefault();
+    const policyId = $(this).data('id');
+    const policy = userPolicies.find(p => p.id == policyId);
+
+    if (policy) {
+      const modalBody = $('#modalContent');
+      const modalTitle = $('#customModalLabel');
+
+      modalTitle.text(`Details for Policy #${policy.policyId}`);
+      modalBody.html(`
+        <table class="table table-bordered">
+          <tbody>
+            <tr><th>Owner Name</th><td>${policy.name}</td></tr>
+            <tr><th>Email</th><td>${policy.email}</td></tr>
+            <tr><th>Mobile</th><td>${policy.mobileNumber}</td></tr>
+            <tr><th>Aadhar</th><td>${policy.aadharNumber}</td></tr>
+            <tr><th>Vehicle Number</th><td>${policy.vehicleNumber}</td></tr>
+            <tr><th>Vehicle Type</th><td>${policy.vehicleType}</td></tr>
+            <tr><th>Coverage Type</th><td>${policy.coverageType}</td></tr>
+            <tr><th>Premium</th><td>₹${policy.premiumAmount}</td></tr>
+            <tr><th>Coverage Amount</th><td>₹${policy.coverageAmount}</td></tr>
+            <tr><th>Start Date</th><td>${new Date(policy.startDate).toLocaleDateString()}</td></tr>
+            <tr><th>End Date</th><td>${new Date(policy.endDate).toLocaleDateString()}</td></tr>
+            <tr><th>Status</th><td><span class="badge bg-success">${policy.status}</span></td></tr>
+          </tbody>
+        </table>
+        `);
+
+      $('#customModal').modal('show');
     }
   });
-});
 
-// Function to load user policies
-async function loadUserPolicies() {
-  try {
-    const currentUser = JSON.parse(localStorage.getItem("user"));
-    if (!currentUser || !currentUser.customerId) {
+  $('#policyNumberSelect').on('change', function() {
+    const selectedOption = $(this).find('option:selected');
+    const policy = selectedOption.data('policy');
+    const preferredSelect = $('#preferredPolicy');
+    
+    $('#premiumDifference').hide();
+    preferredSelect.html('<option value="" selected disabled>Select new plan...</option>');
+
+    if (policy) {
+      $('#currentPolicy').val(policy.coverageType || '');
+      const currentPlanIndex = PLAN_HIERARCHY.indexOf(policy.coverageType);
+      if (currentPlanIndex > -1) {
+        const higherPlans = PLAN_HIERARCHY.slice(currentPlanIndex + 1);
+        higherPlans.forEach(planName => {
+          preferredSelect.append($(`<option value="${planName}">${planName}</option>`));
+        });
+      }
+    }
+  });
+
+  $('#preferredPolicy').on('change', function() {
+    const newPlanName = $(this).val();
+    const policyId = $('#policyNumberSelect').val();
+    const policy = userPolicies.find(p => p.id == policyId);
+
+    if (newPlanName && policy) {
+      const newPremium = PLAN_PREMIUMS[newPlanName];
+      const oldPremium = policy.premiumAmount;
+      const difference = newPremium - oldPremium;
+
+      if (difference > 0) {
+        $('#premiumDifference').html(`<strong>Additional Amount to Pay:</strong> ₹${difference.toFixed(2)}`).show();
+      } else {
+        $('#premiumDifference').hide();
+      }
+    }
+  });
+
+  $('#updatePolicySection form').on('submit', async function(e) {
+    e.preventDefault();
+    const policyId = $('#policyNumberSelect').val();
+    const newCoverageType = $('#preferredPolicy').val();
+
+    if (!policyId || !newCoverageType) {
+      showError("Please select a policy and a new plan.");
       return;
     }
 
-    const policies = await ApiClient.get(API_CONFIG.ENDPOINTS.POLICIES_BY_CUSTOMER + '/' + currentUser.customerId);
-    
-    // Update policy display in UI
-    displayPolicies(policies);
-    
-  } catch (error) {
-    console.error("Error loading policies:", error);
-  }
-}
+    const policyToUpdate = userPolicies.find(p => p.id == policyId);
+    if (!policyToUpdate) {
+      showError("Could not find policy details.");
+      return;
+    }
 
-// Function to display policies in UI
-function displayPolicies(policies) {
-  const policyContainer = $("#policyListContainer");
-  if (policyContainer.length === 0) return;
-  
-  policyContainer.empty();
-  
-  if (policies && policies.length > 0) {
-    policies.forEach(policy => {
-      const policyCard = `
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">Policy #${policy.policyId}</h5>
-            <p class="card-text">
-              <strong>Vehicle:</strong> ${policy.vehicleType} - ${policy.vehicleNumber}<br>
-              <strong>Premium:</strong> ₹${policy.premiumAmount}<br>
-              <strong>Coverage:</strong> ₹${policy.coverageAmount}<br>
-              <strong>Valid:</strong> ${policy.startDate} to ${policy.endDate}
-            </p>
-          </div>
-        </div>
-      `;
-      policyContainer.append(policyCard);
-    });
-  } else {
-    policyContainer.html('<p class="text-muted">No policies found.</p>');
+    policyToUpdate.coverageType = newCoverageType;
+    policyToUpdate.premiumAmount = PLAN_PREMIUMS[newCoverageType];
+    policyToUpdate.coverageAmount = PLAN_COVERAGES[newCoverageType];
+
+    try {
+      showSuccess("Updating policy...");
+      const response = await ApiClient.put(API_CONFIG.ENDPOINTS.UPDATE_POLICY, policyToUpdate, { id: policyId });
+      if (response) {
+        showSuccess("Policy updated successfully!");
+        loadUserPolicies();
+        $('#updatePolicySection form')[0].reset();
+        $('#premiumDifference').hide();
+      } else {
+        showError("Failed to update policy.");
+      }
+    } catch (error) {
+      console.error("Policy update error:", error);
+      showError("Policy update failed: " + error.message);
+    }
+  });
+
+  // Initial Load
+  $('.nav-link[data-tab="policy"]').on('click', () => loadUserPolicies());
+  if ($('.nav-link[data-tab="policy"]').hasClass('active')) {
+    loadUserPolicies();
   }
+});
+
+function scrollToSection(sectionId) {
+  document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
 }

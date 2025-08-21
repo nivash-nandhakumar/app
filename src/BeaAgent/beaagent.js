@@ -34,14 +34,19 @@ $(document).ready(function () {
         email: email,
       };
 
-      console.log("Submitting agent application:", formData);
-
-      // Call backend agent application API
+      // 1. Save data to the backend
       const response = await ApiClient.post(API_CONFIG.ENDPOINTS.AGENT_APPLY, formData);
       
       if (response.success) {
-        showSuccess("Agent application submitted successfully! You will be contacted soon.");
+        showSuccess("Application saved! Now opening your email client.");
         
+        // 2. Also open mailto link
+        const recipient = "nivashnandha2002@gmail.com";
+        const subject = `New Agent Application from ${formData.name}`;
+        const body = `A new agent application has been submitted with the following details:\n\nName: ${formData.name}\nDate of Birth: ${formData.dateOfBirth}\nCity: ${formData.city}\nMobile: ${formData.mobile}\nEmail: ${formData.email}`;
+        const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoLink;
+
         // Reset the form
         this.reset();
         

@@ -18,21 +18,19 @@
       <form id="renewForm">
         <div class="mb-3">
           <label for="renewal_policyId" class="form-label">Policy ID</label>
-          <input type="text" class="form-control" id="renewal_policyId" required>
+          <select class="form-select" id="renewal_policyId" required>
+            <option value="">Select Policy</option>
+          </select>
           <div id="policyError" class="text-danger mt-1" style="display: none;">Invalid Policy ID</div>
         </div>
         <div class="mb-3">
           <label for="expiryDate" class="form-label">Expiry Date</label>
-          <input type="text" class="form-control" id="expiryDate" readonly placeholder="Auto-filled after valid Policy ID">
+          <input type="text" class="form-control" id="expiryDate" readonly placeholder="Auto-filled after selecting a Policy">
         </div>
         <div class="mb-3">
           <label for="package" class="form-label">Package</label>
           <select class="form-select" id="package" required>
             <option value="">Select Package</option>
-            <option value="1000" text="Basic">Basic – ₹1000/year</option>
-            <option value="1500" text="Silver">Silver – ₹1500/year</option>
-            <option value="2000" text="Gold">Gold – ₹2000/year</option>
-            <option value="2500" text="Premium">Premium – ₹2500/year</option>
           </select>
         </div>
         <div class="mb-3">

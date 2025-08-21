@@ -57,6 +57,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User updateDisplayPicture(Long userId, String displayPicture) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setDisplayPicture(displayPicture);
+        return userRepository.save(user);
+    }
+
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }

@@ -66,7 +66,7 @@ public class ClaimService {
 
         claim.setClaimAmount(claimDetails.getClaimAmount());
         claim.setReason(claimDetails.getReason());
-        claim.setProofFilePath(claimDetails.getProofFilePath());
+        claim.setProofDocument(claimDetails.getProofDocument());
         claim.setStatus(claimDetails.getStatus());
         claim.setRemark(claimDetails.getRemark());
 

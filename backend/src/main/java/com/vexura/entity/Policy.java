@@ -19,7 +19,7 @@ public class Policy {
     private String policyId;
 
     @NotNull(message = "User is required")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -30,6 +30,30 @@ public class Policy {
     @NotBlank(message = "Vehicle number is required")
     @Column(name = "vehicle_number", nullable = false)
     private String vehicleNumber;
+
+    @NotBlank(message = "Coverage type is required")
+    @Column(nullable = false)
+    private String coverageType;
+
+    @NotBlank(message = "Name is required")
+    @Column(nullable = false)
+    private String name;
+
+    @NotBlank(message = "Aadhar number is required")
+    @Column(nullable = false)
+    private String aadharNumber;
+
+    @NotBlank(message = "Mobile number is required")
+    @Column(nullable = false)
+    private String mobileNumber;
+
+    @NotBlank(message = "Email is required")
+    @Column(nullable = false)
+    private String email;
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String registrationCertificate;
 
     @NotNull(message = "Premium amount is required")
     @Column(name = "premium_amount", nullable = false, precision = 10, scale = 2)
@@ -48,7 +72,7 @@ public class Policy {
     private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private PolicyStatus status = PolicyStatus.ACTIVE;
 
     @Column(name = "created_at")
@@ -102,6 +126,24 @@ public class Policy {
     public String getVehicleNumber() { return vehicleNumber; }
     public void setVehicleNumber(String vehicleNumber) { this.vehicleNumber = vehicleNumber; }
 
+    public String getCoverageType() { return coverageType; }
+    public void setCoverageType(String coverageType) { this.coverageType = coverageType; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getAadharNumber() { return aadharNumber; }
+    public void setAadharNumber(String aadharNumber) { this.aadharNumber = aadharNumber; }
+
+    public String getMobileNumber() { return mobileNumber; }
+    public void setMobileNumber(String mobileNumber) { this.mobileNumber = mobileNumber; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getRegistrationCertificate() { return registrationCertificate; }
+    public void setRegistrationCertificate(String registrationCertificate) { this.registrationCertificate = registrationCertificate; }
+
     public BigDecimal getPremiumAmount() { return premiumAmount; }
     public void setPremiumAmount(BigDecimal premiumAmount) { this.premiumAmount = premiumAmount; }
 
@@ -124,6 +166,6 @@ public class Policy {
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
     public enum PolicyStatus {
-        ACTIVE, EXPIRED, CANCELLED, PENDING
+        ACTIVE, EXPIRED, CANCELLED, PENDING, RENEWED
     }
 }

@@ -22,9 +22,12 @@ public interface PolicyRepository extends JpaRepository<Policy, Long> {
     
     List<Policy> findByVehicleType(String vehicleType);
     
-    @Query("SELECT p FROM Policy p WHERE p.endDate < :currentDate")
+    @Query("SELECT p FROM Policy p WHERE p.endDate < :currentDate AND p.status = 'EXPIRED'")
     List<Policy> findExpiredPolicies(@Param("currentDate") LocalDate currentDate);
     
+    @Query("SELECT p FROM Policy p WHERE p.endDate < :currentDate AND p.status = 'ACTIVE'")
+    List<Policy> findActivePoliciesWithExpiredEndDate(@Param("currentDate") LocalDate currentDate);
+
     @Query("SELECT p FROM Policy p WHERE p.endDate BETWEEN :startDate AND :endDate")
     List<Policy> findPoliciesExpiringBetween(@Param("startDate") LocalDate startDate, 
                                            @Param("endDate") LocalDate endDate);

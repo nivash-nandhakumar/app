@@ -1,13 +1,17 @@
 package com.vexura.controller;
 
 import com.vexura.entity.Agent;
+import com.vexura.entity.AgentAppointment;
 import com.vexura.entity.User;
+import com.vexura.service.AgentAppointmentService;
 import com.vexura.service.AgentService;
+
 import com.vexura.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +24,9 @@ public class AgentController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AgentAppointmentService agentAppointmentService;
 
     @GetMapping
     public List<Agent> getAllAgents() {
@@ -47,34 +54,45 @@ public class AgentController {
             String email = (String) agentData.get("email");
             String mobile = (String) agentData.get("mobile");
             String city = (String) agentData.get("city");
-            
-            // Create user first
-            User user = new User();
-            user.setName(name);
-            user.setEmail(email);
-            user.setPassword("defaultPassword123"); // Should be changed on first login
-            user.setMobile(mobile);
-            user.setCity(city);
-            user.setRole(User.UserRole.AGENT);
-            
-            User createdUser = userService.createUser(user);
 
-            // Create agent
+            User user = userService.getUserByEmail(email)
+                    .orElseGet(() -> {
+                        User newUser = new User();
+                        newUser.setName(name);
+                        newUser.setEmail(email);
+                        newUser.setPassword("defaultPassword123"); // Should be changed on first login
+                        newUser.setMobile(mobile);
+                        newUser.setCity(city);
+                        return userService.createUser(newUser);
+                    });
+
+            if (user.getRole() != User.UserRole.AGENT) {
+                user.setRole(User.UserRole.AGENT);
+                user = userService.updateUser(user.getId(), user);
+            }
+
+            if (agentService.getAgentByUser(user).isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of(
+                        "success", false,
+                        "message", "This user is already an agent."
+                ));
+            }
+
             Agent agent = new Agent();
-            agent.setUser(createdUser);
+            agent.setUser(user);
             agent.setRole(Agent.AgentRole.valueOf((String) agentData.get("role")));
             agent.setDistricts((List<String>) agentData.get("districts"));
 
             Agent createdAgent = agentService.createAgent(agent);
             return ResponseEntity.ok(Map.of(
-                "success", true,
-                "agent", createdAgent,
-                "message", "Agent created successfully"
+                    "success", true,
+                    "agent", createdAgent,
+                    "message", "Agent created successfully"
             ));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of(
-                "success", false,
-                "message", "Error creating agent: " + e.getMessage()
+                    "success", false,
+                    "message", "Error creating agent: " + e.getMessage()
             ));
         }
     }
@@ -82,35 +100,27 @@ public class AgentController {
     @PostMapping("/apply")
     public ResponseEntity<Map<String, Object>> applyAsAgent(@RequestBody Map<String, Object> applicationData) {
         try {
-            String name = (String) applicationData.get("name");
-            String email = (String) applicationData.get("email");
-            String mobile = (String) applicationData.get("mobile");
-            String city = (String) applicationData.get("city");
+            AgentAppointment appointment = new AgentAppointment();
+            appointment.setName((String) applicationData.get("name"));
+            appointment.setEmail((String) applicationData.get("email"));
+            appointment.setMobile((String) applicationData.get("mobile"));
+            appointment.setCity((String) applicationData.get("city"));
             String dob = (String) applicationData.get("dateOfBirth");
-
-            // Create user with AGENT role
-            User user = new User();
-            user.setName(name);
-            user.setEmail(email);
-            user.setPassword("tempPassword123"); // Should be changed
-            user.setMobile(mobile);
-            user.setCity(city);
-            user.setRole(User.UserRole.AGENT);
-            if (dob != null) {
-                user.setDateOfBirth(java.time.LocalDate.parse(dob));
+            if (dob != null && !dob.isEmpty()) {
+                appointment.setDateOfBirth(LocalDate.parse(dob));
             }
 
-            User createdUser = userService.createUser(user);
+            AgentAppointment savedAppointment = agentAppointmentService.createAppointment(appointment);
 
             return ResponseEntity.ok(Map.of(
-                "success", true,
-                "user", createdUser,
-                "message", "Agent application submitted successfully"
+                    "success", true,
+                    "appointment", savedAppointment,
+                    "message", "Agent application submitted successfully."
             ));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of(
-                "success", false,
-                "message", "Error submitting application: " + e.getMessage()
+                    "success", false,
+                    "message", "Error submitting application: " + e.getMessage()
             ));
         }
     }

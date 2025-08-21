@@ -37,4 +37,18 @@
 .info-label {
   font-weight: bold;
   color: #555;
+  padding-right: 15px; /* Add space between label and value */
+  text-align: right;
 }
+
+.profile-table {
+  margin: auto; /* Center the table */
+  border-collapse: collapse; /* Remove space between cells */
+}
+
+.profile-table td {
+  border: none; /* Ensure no borders */
+  padding: 5px; /* Add some spacing */
+  text-align: left;
+}
+

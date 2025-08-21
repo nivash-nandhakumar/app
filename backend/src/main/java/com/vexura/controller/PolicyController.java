@@ -56,6 +56,12 @@ public class PolicyController {
             policy.setUser(user);
             policy.setVehicleType((String) policyData.get("vehicleType"));
             policy.setVehicleNumber((String) policyData.get("vehicleNumber"));
+            policy.setCoverageType((String) policyData.get("coverageType"));
+            policy.setName((String) policyData.get("name"));
+            policy.setAadharNumber((String) policyData.get("aadharNumber"));
+            policy.setMobileNumber((String) policyData.get("mobileNumber"));
+            policy.setEmail((String) policyData.get("email"));
+            policy.setRegistrationCertificate((String) policyData.get("registrationCertificate"));
             policy.setPremiumAmount(new java.math.BigDecimal(policyData.get("premiumAmount").toString()));
             policy.setCoverageAmount(new java.math.BigDecimal(policyData.get("coverageAmount").toString()));
             policy.setStartDate(java.time.LocalDate.parse((String) policyData.get("startDate")));

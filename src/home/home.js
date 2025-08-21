@@ -8,7 +8,7 @@ $(document).ready(function (){
     activateTab('admin');
   })
 
-  if(!isLoggedIn || (isLoggedIn && user_mode==='User')){
+  if(!isLoggedIn || (isLoggedIn && user_mode==='USER')){
     $('#home_admin_btn').hide();
   }
 })

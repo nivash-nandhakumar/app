@@ -36,6 +36,10 @@ public class User {
     private String city;
     private String address;
 
+    @Lob
+    @Column(name = "displayPicture", columnDefinition = "LONGTEXT")
+    private String displayPicture;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role = UserRole.USER;
@@ -98,6 +102,9 @@ public class User {
 
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
+
+    public String getDisplayPicture() { return displayPicture; }
+    public void setDisplayPicture(String displayPicture) { this.displayPicture = displayPicture; }
 
     public UserRole getRole() { return role; }
     public void setRole(UserRole role) { this.role = role; }
