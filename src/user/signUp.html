@@ -52,9 +52,21 @@
 
         <div class="d-flex justify-content-center align-items-center gap-2">
           <!-- Password -->
-          <div class="form-group mb-3">
+          <div class="form-group mb-3 position-relative">
             <label>Password</label>
             <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+            <div id="passwordStrengthFeedback" class="invalid-feedback">
+              Password must contain:
+              <ul class="mb-0 mt-1">
+                <li id="length-req">At least 8 characters</li>
+                <li id="uppercase-req">One uppercase letter</li>
+                <li id="number-req">One number</li>
+                <li id="special-req">One special character (!@#$%^&*(),.?":{}|<>)</li>
+              </ul>
+            </div>
+            <span id="passwordStrengthIcon" class="position-absolute top-50 end-0 translate-middle-y me-3" style="display:none;">
+              <i class="fa fa-check text-success"></i>
+            </span>
           </div>
 
           <!-- Confirm Password -->
@@ -62,7 +74,9 @@
             <label>Confirm Password</label>
             <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Re-enter your password" required>
             <div id="passwordMatchFeedback" class="invalid-feedback">Passwords do not match.</div>
-            <span id="passwordMatchIcon" class="position-absolute top-50 end-0 translate-middle-y me-3" style="display:none;"></span>
+            <span id="passwordMatchIcon" class="position-absolute top-50 end-0 translate-middle-y me-3" style="display:none;">
+              <i class="fa fa-check text-success"></i>
+            </span>
           </div>
         </div>
 

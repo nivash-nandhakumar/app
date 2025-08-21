@@ -1,5 +1,5 @@
 function checkValidity(i, status){
-if (status) {
+  if (status) {
     $(i).removeClass("is-invalid").addClass("is-valid");
     $("#passwordStrengthFeedback").hide();
     $("#passwordStrengthIcon").show();
@@ -10,22 +10,58 @@ if (status) {
   }
 }
 
+function checkPasswordRequirements(password) {
+  const requirements = {
+    length: password.length >= 8,
+    uppercase: /[A-Z]/.test(password),
+    number: /\d/.test(password),
+    special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+  };
+
+  // Update individual requirement indicators
+  $("#length-req").toggleClass("text-success", requirements.length).toggleClass("text-danger", !requirements.length);
+  $("#uppercase-req").toggleClass("text-success", requirements.uppercase).toggleClass("text-danger", !requirements.uppercase);
+  $("#number-req").toggleClass("text-success", requirements.number).toggleClass("text-danger", !requirements.number);
+  $("#special-req").toggleClass("text-success", requirements.special).toggleClass("text-danger", !requirements.special);
+
+  // Add check icons for met requirements
+  $("#length-req").find("i").remove();
+  $("#uppercase-req").find("i").remove();
+  $("#number-req").find("i").remove();
+  $("#special-req").find("i").remove();
+
+  if (requirements.length) $("#length-req").prepend('<i class="fa fa-check me-1"></i>');
+  if (requirements.uppercase) $("#uppercase-req").prepend('<i class="fa fa-check me-1"></i>');
+  if (requirements.number) $("#number-req").prepend('<i class="fa fa-check me-1"></i>');
+  if (requirements.special) $("#special-req").prepend('<i class="fa fa-check me-1"></i>');
+
+  return requirements.length && requirements.uppercase && requirements.number && requirements.special;
+}
+
 $(document).ready(function () {
 
 
   $("#password").on("input", function () {
-  const password = $(this).val();
-  const isStrong = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/.test(password);
-
-  checkValidity(this, isStrong);
-});
+    const password = $(this).val();
+    const isStrong = checkPasswordRequirements(password);
+    checkValidity(this, isStrong);
+  });
 
   // Real-time password match validation
   $("#confirmPassword").on("input", function () {
     const password = $("#password").val();
     const confirmPassword = $(this).val();
+    const passwordsMatch = confirmPassword === password && confirmPassword !== "";
 
-    checkValidity(this, confirmPassword === password && confirmPassword !== "");
+    if (passwordsMatch) {
+      $(this).removeClass("is-invalid").addClass("is-valid");
+      $("#passwordMatchFeedback").hide();
+      $("#passwordMatchIcon").show();
+    } else {
+      $(this).removeClass("is-valid").addClass("is-invalid");
+      $("#passwordMatchFeedback").show();
+      $("#passwordMatchIcon").hide();
+    }
   });
 
   // Form submission
