@@ -40,7 +40,7 @@ public class AgentService {
                 .orElseThrow(() -> new RuntimeException("Agent not found"));
 
         agent.setRole(agentDetails.getRole());
-        agent.setDistricts(agentDetails.getDistricts());
+        agent.setDistrict(agentDetails.getDistrict());
 
         return agentRepository.save(agent);
     }

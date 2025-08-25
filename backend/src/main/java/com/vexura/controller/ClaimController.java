@@ -1,21 +1,16 @@
 package com.vexura.controller;
-
+import com.vexura.entity.Agent;
 import com.vexura.entity.Claim;
 import com.vexura.entity.Policy;
 import com.vexura.entity.User;
+import com.vexura.repository.AgentRepository;
 import com.vexura.service.ClaimService;
 import com.vexura.service.PolicyService;
 import com.vexura.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +27,8 @@ public class ClaimController {
     @Autowired
     private UserService userService;
 
-    private final String UPLOAD_DIR = "uploads/claims/";
+    @Autowired
+    private AgentRepository agentRepository;
 
     @GetMapping
     public List<Claim> getAllClaims() {
@@ -80,7 +76,7 @@ public class ClaimController {
             claim.setUser(user);
             claim.setClaimAmount(new java.math.BigDecimal(claimData.get("claimAmount").toString()));
             claim.setReason((String) claimData.get("reason"));
-            claim.setProofDocument((String) claimData.get("proofDocument")); // Set Base64 string
+            claim.setProofDocument((String) claimData.get("proofDocument"));
 
             Claim createdClaim = claimService.createClaim(claim);
             return ResponseEntity.ok(Map.of(
@@ -100,14 +96,19 @@ public class ClaimController {
     public ResponseEntity<Claim> updateClaimStatus(@PathVariable Long id, 
                                                   @RequestBody Map<String, String> statusData) {
         try {
-            Claim.ClaimStatus status = Claim.ClaimStatus.valueOf(statusData.get("status"));
+            Claim.ClaimStatus status = Claim.ClaimStatus.valueOf(statusData.get("status").toUpperCase());
             String remark = statusData.get("remark");
-            String approvedBy = statusData.get("approvedBy");
+            String agentId = statusData.get("approvedBy");
 
-            Claim updatedClaim = claimService.updateClaimStatus(id, status, remark, approvedBy);
+            Agent agent = agentRepository.findByAgentId(agentId)
+                    .orElseThrow(() -> new RuntimeException("Agent not found with ID: " + agentId));
+
+            String approvedByName = agent.getUser().getName();
+
+            Claim updatedClaim = claimService.updateClaimStatus(id, status, remark, approvedByName);
             return ResponseEntity.ok(updatedClaim);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
     }
 

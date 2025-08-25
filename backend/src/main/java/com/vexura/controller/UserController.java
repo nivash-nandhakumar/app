@@ -1,13 +1,17 @@
 package com.vexura.controller;
 
+import com.vexura.entity.Agent;
 import com.vexura.entity.User;
+import com.vexura.repository.AgentRepository;
 import com.vexura.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -15,6 +19,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AgentRepository agentRepository;
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -63,11 +70,22 @@ public class UserController {
 
         if (userService.authenticateUser(email, password)) {
             User user = userService.getUserByEmail(email).orElse(null);
-            return ResponseEntity.ok(Map.of(
-                "success", true,
-                "user", user,
-                "message", "Login successful"
-            ));
+            if (user == null) {
+                return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "User not found after authentication"
+                ));
+            }
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("user", user);
+            response.put("message", "Login successful");
+
+            Optional<Agent> agentOpt = agentRepository.findByUser(user);
+            agentOpt.ifPresent(agent -> response.put("agentId", agent.getAgentId()));
+
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.badRequest().body(Map.of(
                 "success", false,

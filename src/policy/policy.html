@@ -1,16 +1,19 @@
 <script src="../policy/policy.js"></script>
- <link rel="stylesheet" href="../policy/policy.css"/>  
+<link rel="stylesheet" href="../policy/policy.css" />
 
-
-<div class="container mt-5">
+<div class="container mt-1">
   <h2 class="text-center mb-4">Policies Dashboard</h2>
-  </div>  
+  <button
+    class="btn btn-success addPolicyBtn"
+    onclick="activateTab('calculator')"
+  >
+    Add new Policy
+  </button>
+</div>
 <div class="container mt-4">
   <!-- Navigation Buttons -->
-  <div class= "mb-4">
-    
-    <button class="btn btn-info" onclick="scrollToSection('updatePolicySection')">Update Policy Information</button>
-    <button class="btn btn-success" onclick="activateTab('calculator')">Add new Policy</button>
+  <div class="mb-4">
+    <!-- <button class="btn btn-info" onclick="scrollToSection('updatePolicySection')">Update Policy Information</button> -->
   </div>
 
   <!-- View Current Policies Section -->
@@ -44,7 +47,7 @@
 
       <div class="mb-3">
         <label for="currentPolicy" class="form-label">Current Policy</label>
-        <input type="text" class="form-control" id="currentPolicy" readonly>
+        <input type="text" class="form-control" id="currentPolicy" readonly />
       </div>
 
       <div class="mb-3">
@@ -55,7 +58,11 @@
       </div>
 
       <!-- Premium Difference Display -->
-      <div id="premiumDifference" class="alert alert-info mt-3" style="display: none;"></div>
+      <div
+        id="premiumDifference"
+        class="alert alert-info mt-3"
+        style="display: none"
+      ></div>
 
       <button type="submit" class="btn btn-success">Update</button>
     </form>

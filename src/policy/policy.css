@@ -1,19 +1,30 @@
- .body {
-      background-color: #f8f9fa;
-      scroll-behavior: smooth;
-    }
-    .policy-section {
-      background: #fff;
-      padding: 20px;
-      margin-bottom: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      animation: fadeIn 0.6s ease-in-out;
-    }
-     .fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .h2 {
-      color: #0d6efd;
-    }
+.policy-section {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.6s ease-in-out;
+}
+.container {
+  position: relative;
+}
+
+.addPolicyBtn{
+  position: absolute;
+  right: 10px;
+}
+
+.fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.h2 {
+  color: #0d6efd;
+}

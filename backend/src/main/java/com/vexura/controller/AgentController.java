@@ -5,7 +5,6 @@ import com.vexura.entity.AgentAppointment;
 import com.vexura.entity.User;
 import com.vexura.service.AgentAppointmentService;
 import com.vexura.service.AgentService;
-
 import com.vexura.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,61 +39,23 @@ public class AgentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/agent/{agentId}")
-    public ResponseEntity<Agent> getAgentByAgentId(@PathVariable String agentId) {
-        return agentService.getAgentByAgentId(agentId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
     @PostMapping
-    public ResponseEntity<Map<String, Object>> createAgent(@RequestBody Map<String, Object> agentData) {
-        try {
-            String name = (String) agentData.get("name");
-            String email = (String) agentData.get("email");
-            String mobile = (String) agentData.get("mobile");
-            String city = (String) agentData.get("city");
+    public ResponseEntity<Agent> createAgent(@RequestBody Map<String, Object> agentData) {
+        Long userId = Long.parseLong(agentData.get("userId").toString());
+        String role = (String) agentData.get("role");
+        String district = (String) agentData.get("district");
 
-            User user = userService.getUserByEmail(email)
-                    .orElseGet(() -> {
-                        User newUser = new User();
-                        newUser.setName(name);
-                        newUser.setEmail(email);
-                        newUser.setPassword("defaultPassword123"); // Should be changed on first login
-                        newUser.setMobile(mobile);
-                        newUser.setCity(city);
-                        return userService.createUser(newUser);
-                    });
+        User user = userService.getUserById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
-            if (user.getRole() != User.UserRole.AGENT) {
-                user.setRole(User.UserRole.AGENT);
-                user = userService.updateUser(user.getId(), user);
-            }
+        user.setRole(User.UserRole.valueOf(role.toUpperCase()));
+        userService.updateUser(userId, user);
 
-            if (agentService.getAgentByUser(user).isPresent()) {
-                return ResponseEntity.badRequest().body(Map.of(
-                        "success", false,
-                        "message", "This user is already an agent."
-                ));
-            }
+        Agent agent = new Agent();
+        agent.setUser(user);
+        agent.setRole(Agent.AgentRole.valueOf(role.toUpperCase()));
+        agent.setDistrict(district);
 
-            Agent agent = new Agent();
-            agent.setUser(user);
-            agent.setRole(Agent.AgentRole.valueOf((String) agentData.get("role")));
-            agent.setDistricts((List<String>) agentData.get("districts"));
-
-            Agent createdAgent = agentService.createAgent(agent);
-            return ResponseEntity.ok(Map.of(
-                    "success", true,
-                    "agent", createdAgent,
-                    "message", "Agent created successfully"
-            ));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of(
-                    "success", false,
-                    "message", "Error creating agent: " + e.getMessage()
-            ));
-        }
+        return ResponseEntity.ok(agentService.createAgent(agent));
     }
 
     @PostMapping("/apply")
@@ -117,10 +78,15 @@ public class AgentController {
                     "appointment", savedAppointment,
                     "message", "Agent application submitted successfully."
             ));
-        } catch (Exception e) {
+        } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(Map.of(
                     "success", false,
-                    "message", "Error submitting application: " + e.getMessage()
+                    "message", e.getMessage()
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of(
+                    "success", false,
+                    "message", "An unexpected error occurred: " + e.getMessage()
             ));
         }
     }
@@ -136,9 +102,9 @@ public class AgentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAgent(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAgent(@PathVariable Long id) {
         agentService.deleteAgent(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/district/{district}")

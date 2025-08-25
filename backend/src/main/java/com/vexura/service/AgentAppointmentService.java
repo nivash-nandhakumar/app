@@ -12,6 +12,9 @@ public class AgentAppointmentService {
     private AgentAppointmentRepository agentAppointmentRepository;
 
     public AgentAppointment createAppointment(AgentAppointment appointment) {
+        if (agentAppointmentRepository.existsByEmail(appointment.getEmail())) {
+            throw new IllegalStateException("An application with this email already exists.");
+        }
         return agentAppointmentRepository.save(appointment);
     }
 }

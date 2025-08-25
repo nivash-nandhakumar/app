@@ -4,6 +4,7 @@ const API_CONFIG = {
     ENDPOINTS: {
         // User endpoints
         USERS: '/users',
+        USERS_BY_ROLE: '/users/role/{role}',
         LOGIN: '/users/login',
         SIGNUP: '/users/signup',
         UPLOAD_AVATAR: '/users/{id}/avatar',

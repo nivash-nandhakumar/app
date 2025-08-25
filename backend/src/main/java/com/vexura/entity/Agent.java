@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "agents")
@@ -18,7 +17,7 @@ public class Agent {
     private String agentId;
 
     @NotNull(message = "User is required")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -26,10 +25,8 @@ public class Agent {
     @Column(nullable = false)
     private AgentRole role = AgentRole.AGENT;
 
-    @ElementCollection
-    @CollectionTable(name = "agent_districts", joinColumns = @JoinColumn(name = "agent_id"))
     @Column(name = "district")
-    private List<String> districts;
+    private String district;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -54,10 +51,10 @@ public class Agent {
     // Constructors
     public Agent() {}
 
-    public Agent(User user, AgentRole role, List<String> districts) {
+    public Agent(User user, AgentRole role, String district) {
         this.user = user;
         this.role = role;
-        this.districts = districts;
+        this.district = district;
     }
 
     // Getters and Setters
@@ -73,8 +70,8 @@ public class Agent {
     public AgentRole getRole() { return role; }
     public void setRole(AgentRole role) { this.role = role; }
 
-    public List<String> getDistricts() { return districts; }
-    public void setDistricts(List<String> districts) { this.districts = districts; }
+    public String getDistrict() { return district; }
+    public void setDistrict(String district) { this.district = district; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
@@ -83,6 +80,6 @@ public class Agent {
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
     public enum AgentRole {
-        AGENT, MANAGER
+        AGENT, ADMIN
     }
 }

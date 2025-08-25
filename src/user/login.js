@@ -24,6 +24,11 @@ $(document).ready(function () {
         localStorage.setItem("user", JSON.stringify(response.user));
         localStorage.setItem("userMode", JSON.stringify(response.user.role));
         localStorage.setItem("isLoggedIn", JSON.stringify(true));
+
+        // If the user is an agent, store their agentId
+        if (response.agentId) {
+          localStorage.setItem("agentId", response.agentId);
+        }
         
         // Update global variables
         isLoggedIn = true;

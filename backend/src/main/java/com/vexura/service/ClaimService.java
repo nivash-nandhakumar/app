@@ -1,7 +1,6 @@
 package com.vexura.service;
 
 import com.vexura.entity.Claim;
-import com.vexura.entity.Policy;
 import com.vexura.entity.User;
 import com.vexura.repository.ClaimRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +46,7 @@ public class ClaimService {
 
     public Claim updateClaimStatus(Long id, Claim.ClaimStatus status, String remark, String approvedBy) {
         Claim claim = claimRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Claim not found"));
+                .orElseThrow(() -> new RuntimeException("Claim not found with ID: " + id));
 
         claim.setStatus(status);
         claim.setRemark(remark);

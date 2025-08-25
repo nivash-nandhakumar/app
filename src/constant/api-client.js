@@ -101,7 +101,7 @@ function showToast(message, type = 'success') {
     }
 
     const toastId = 'toast-' + Date.now();
-    const toastHeaderClass = type === 'danger' ? 'text-bg-danger' : 'text-bg-success';
+    const toastHeaderClass = type === 'danger' ? 'bg-danger' : 'bg-success';
 
     const toastHtml = `
         <div id="${toastId}" class="toast align-items-center ${toastHeaderClass} border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000" data-bs-autohide="true">

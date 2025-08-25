@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AgentAppointmentRepository extends JpaRepository<AgentAppointment, Long> {
+    boolean existsByEmail(String email);
 }
