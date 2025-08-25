@@ -3,10 +3,8 @@ package com.vexura.controller;
 
 import com.vexura.entity.Policy;
 import com.vexura.entity.Renewal;
-import com.vexura.entity.User;
 import com.vexura.service.PolicyService;
 import com.vexura.service.RenewalService;
-import com.vexura.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +23,6 @@ public class RenewalController {
 
     @Autowired
     private PolicyService policyService;
-
-    @Autowired
-    private UserService userService;
 
     @GetMapping
     public List<Renewal> getAllRenewals() {

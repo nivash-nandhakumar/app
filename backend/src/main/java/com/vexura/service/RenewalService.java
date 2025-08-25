@@ -1,7 +1,6 @@
 package com.vexura.service;
 
 import com.vexura.entity.Renewal;
-import com.vexura.entity.Policy;
 import com.vexura.entity.User;
 import com.vexura.repository.RenewalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
