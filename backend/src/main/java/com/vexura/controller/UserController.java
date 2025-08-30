@@ -60,7 +60,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(Map.of("message", "User deleted successfully"));
     }
 
     @PostMapping("/login")

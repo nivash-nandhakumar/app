@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/agents")
@@ -101,10 +102,29 @@ public class AgentController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAgent(@PathVariable Long id) {
+        @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAgent(@PathVariable Long id) {
+        // Find the agent by its ID.
+        Optional<Agent> agentOpt = agentService.getAgentById(id);
+
+        if (agentOpt.isEmpty()) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.NOT_FOUND)
+                                 .body(Map.of("message", "Agent with ID " + id + " not found."));
+        }
+
+        Agent agent = agentOpt.get();
+        User user = agent.getUser();
+
+        // If the user exists, update their role.
+        if (user != null) {
+            user.setRole(User.UserRole.USER);
+            userService.updateUser(user.getId(), user);
+        }
+
+        // Delete the agent.
         agentService.deleteAgent(id);
-        return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok(Map.of("message", "Agent deleted successfully and user role updated."));
     }
 
     @GetMapping("/district/{district}")

@@ -88,11 +88,11 @@ $(document).ready(function () {
 
   $("#customerBody").on("click", ".saveBtn", function () {
     const row = $(this).closest("tr");
-    const userId = row.find("td").eq(2).text();
+    const userId = row.data("id");
     const updatedUser = {
       name: row.find("td").eq(1).text(),
       email: row.find("td").eq(3).text(),
-      phone: row.find("td").eq(4).text(),
+      mobile: row.find("td").eq(4).text(),
       address: row.find("td").eq(5).text(),
     };
 
@@ -112,7 +112,7 @@ $(document).ready(function () {
 
   $("#customerBody").on("click", ".deleteBtn", function () {
     const row = $(this).closest("tr");
-    const userId = row.find("td").eq(2).text();
+    const userId = row.data("id");
     deleteUser(userId, () => {
       row.remove();
       renumberSNo("#customerBody tr");
@@ -279,16 +279,12 @@ let userList = [];
 let agentList = [];
 
 function fetchClaims(mode) {
-  if (claimList.length == 0) {
     ApiClient.get(API_CONFIG.ENDPOINTS.CLAIMS)
       .then((data) => {
         claimList = data;
         loadClaims(mode);
       })
       .catch((error) => console.error("Error fetching claims:", error));
-  } else {
-    loadClaims(mode);
-  }
 }
 
 const loadClaims = (mode) => {
@@ -307,7 +303,6 @@ function fetchRenewals() {
 }
 
 function fetchUsers(mode) {
-  if (userList.length == 0) {
     ApiClient.get(API_CONFIG.ENDPOINTS.USERS)
       .then((data) => {
         userList = data;
@@ -316,24 +311,15 @@ function fetchUsers(mode) {
           : populateUserDropdown(userList);
       })
       .catch((error) => console.error("Error fetching users:", error));
-  } else {
-    mode === "customer"
-      ? renderCustomerList(userList)
-      : populateUserDropdown(userList);
-  }
 }
 
 function fetchAgents() {
-  if (agentList.length == 0) {
     ApiClient.get(API_CONFIG.ENDPOINTS.AGENTS)
       .then((data) => {
         agentList = data;
         renderAgentsTable(agentList);
       })
       .catch((error) => console.error("Error fetching agents:", error));
-  } else {
-    renderAgentsTable(agentList);
-  }
 }
 
 function updateClaimStatus(id, status, remark, callback) {
@@ -505,7 +491,7 @@ function renderCustomerList(customers) {
   $("#customerBody").empty();
   $.each(customers, function (index, customer) {
     $("#customerBody").append(`
-          <tr>
+          <tr data-id="${customer.id}">
             <td>${index + 1}</td>
             <td contenteditable="false">${customer.name}</td>
             <td >${customer.customerId}</td>
