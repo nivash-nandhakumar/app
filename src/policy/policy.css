@@ -30,3 +30,19 @@
 .h2 {
   color: #0d6efd;
 }
+/* Add spacing below the form */
+form {
+    margin-bottom: 50px; /* You can increase this value if needed */
+}
+
+/* Optional: Add padding instead of margin */
+form {
+    padding-bottom: 50px;
+}
+
+/* Ensure the footer stays on top if needed */
+footer {
+    z-index: 10;
+    position: relative;
+}
+
