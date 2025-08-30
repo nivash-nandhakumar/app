@@ -70,12 +70,14 @@ public class User {
     // Constructors
     public User() {}
 
-    public User(String name, String email, String password, String mobile, String city) {
+    public User(String name, String email, String password, String mobile, String city,LocalDate dateOfBirth,String address) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.mobile = mobile;
         this.city = city;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
     }
 
     // Getters and Setters
