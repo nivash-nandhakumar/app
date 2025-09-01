@@ -50,9 +50,9 @@ public class UserService {
         user.setAddress(userDetails.getAddress());
         user.setDateOfBirth(userDetails.getDateOfBirth());
 
-        if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
-        }
+        // if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
+        //     user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
+        // }
         
         if (userDetails.getRole() != null) {
             user.setRole(userDetails.getRole());
